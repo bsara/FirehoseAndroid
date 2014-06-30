@@ -1,0 +1,3 @@
+[submodule "libs/Volley"]
+	path = libs/Volley
+	url = git@github.com:amozoss/volley.git
