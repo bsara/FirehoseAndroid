@@ -22,7 +22,7 @@ public class Visitor extends FHObject implements Parcelable {
         public String boxState;
 
         @SerializedName("connected_at")
-        public Date connectedAt;
+        public String connectedAt;
 
         @SerializedName("current_url")
         public String currentURL;
@@ -31,7 +31,7 @@ public class Visitor extends FHObject implements Parcelable {
         public String customAttributes;
 
         @SerializedName("disconnected_at")
-        public Date disconnectedAt;
+        public String disconnectedAt;
 
         @SerializedName("display_name")
         public String displayName;
@@ -39,8 +39,8 @@ public class Visitor extends FHObject implements Parcelable {
         @SerializedName("email")
         public String email;
 
-        @SerializedName("env")
-        public HashMap<String, HashMap<String, HashMap<String, String>>> env;
+        //@SerializedName("env")
+        //public HashMap<String, HashMap<String, HashMap<String, String>>> env;
 
         @SerializedName("ip")
         public String ip;
@@ -58,7 +58,7 @@ public class Visitor extends FHObject implements Parcelable {
         public String mostRecentChat;
 
         @SerializedName("most_recent_chat_received_at")
-        public Date mostRecentChatReceivedAt;
+        public String mostRecentChatReceivedAt;
 
         @SerializedName("needs_response")
         public Boolean needsResponse;
@@ -76,7 +76,7 @@ public class Visitor extends FHObject implements Parcelable {
         public int unreadCount;
 
         @SerializedName("visited_current_url_at")
-        public Date visitedCurrentUrlAt;
+        public String visitedCurrentUrlAt;
 
         @SerializedName("visitor_id")
         public String visitorId;
@@ -95,10 +95,10 @@ public class Visitor extends FHObject implements Parcelable {
         parcel.writeInt(agentId);
         parcel.writeString(boxState);
         // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
-        parcel.writeSerializable(connectedAt);
+        //parcel.writeSerializable(connectedAt);
         parcel.writeString(currentURL);
         parcel.writeString(customAttributes);
-        parcel.writeSerializable(disconnectedAt);
+        //parcel.writeSerializable(disconnectedAt);
         parcel.writeString(displayName);
         parcel.writeString(email);
         // TODO env in parcelable
@@ -107,17 +107,17 @@ public class Visitor extends FHObject implements Parcelable {
         // http://stackoverflow.com/questions/6201311/how-to-read-write-a-boolean-when-implementing-the-parcelable-interface
         if (isTyping != null)
             parcel.writeByte((byte) (isTyping ? 1 : 0));
-        parcel.writeList(location);
+        //parcel.writeList(location);
         parcel.writeString(locationString);
         parcel.writeString(mostRecentChat);
-        parcel.writeSerializable(mostRecentChatReceivedAt);
+        //parcel.writeSerializable(mostRecentChatReceivedAt);
         if (needsResponse != null)
             parcel.writeByte((byte) (needsResponse ? 1 : 0));
         parcel.writeString(productToken);
         parcel.writeString(referrerURL);
         parcel.writeString(timeZone);
         parcel.writeInt(unreadCount);
-        parcel.writeSerializable(visitedCurrentUrlAt);
+        //parcel.writeSerializable(visitedCurrentUrlAt);
         parcel.writeString(visitorId);
     }
 
@@ -129,10 +129,10 @@ public class Visitor extends FHObject implements Parcelable {
             mVisitor.agentId = source.readInt();//agentId);
             mVisitor.boxState = source.readString();//boxState);
             // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
-            mVisitor.connectedAt = (java.util.Date) source.readSerializable();//connectedAt);
+            //mVisitor.connectedAt = (java.util.Date) source.readSerializable();//connectedAt);
             mVisitor.currentURL = source.readString();//currentURL);
             mVisitor.customAttributes = source.readString();//customAttributes);
-            mVisitor.disconnectedAt = (java.util.Date) source.readSerializable();//disconnectedAt);
+            //mVisitor.disconnectedAt = (java.util.Date) source.readSerializable();//disconnectedAt);
             mVisitor.displayName = source.readString();//displayName);
             mVisitor.email = source.readString();//email);
             // TODO env in parcelable
@@ -145,13 +145,13 @@ public class Visitor extends FHObject implements Parcelable {
             //mVisitor.location = source.readList(mVisitor.location, null);
             mVisitor.locationString = source.readString();
             mVisitor.mostRecentChat = source.readString();
-            mVisitor.mostRecentChatReceivedAt = (java.util.Date) source.readSerializable();
+            //mVisitor.mostRecentChatReceivedAt = (java.util.Date) source.readSerializable();
             mVisitor.needsResponse = source.readByte() != 0;
             mVisitor.productToken = source.readString();
             mVisitor.referrerURL = source.readString();
             mVisitor.timeZone = source.readString();
             mVisitor.unreadCount = source.readInt();
-            mVisitor.visitedCurrentUrlAt = (java.util.Date) source.readSerializable();
+            //mVisitor.visitedCurrentUrlAt = (java.util.Date) source.readSerializable();
             mVisitor.visitorId = source.readString();
             return mVisitor;
         }
