@@ -1,6 +1,9 @@
 package com.mysterioustrousers.firehose;
 
 
+
+import java.io.UnsupportedEncodingException;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
@@ -13,7 +16,6 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -21,38 +23,47 @@ import java.io.UnsupportedEncodingException;
  * optional {@link JSONObject} to be passed in as part of the request body.
  */
 public class GsonRequest<T> extends JsonRequest<T> {
-    private final Gson gson = new Gson();
-    private final Class<T> clazz;
 
-    /**
-     * Creates a new request.
-     * @param method the HTTP method to use
-     * @param url URL to fetch the JSON from
-     * @param jsonRequest A {@link JSONObject} to post with the request. Null is allowed and
-     *   indicates no parameters will be posted along with request.
-     * @param listener Listener to receive the JSON response
-     * @param errorListener Error listener, or null to ignore errors.
-     */
-    public GsonRequest(int method, String url, Class<T> clazz, JSONObject jsonRequest,
-                             Listener<T> listener, ErrorListener errorListener) {
-        super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
-                errorListener);
-        this.clazz = clazz;
-    }
+  private final Gson gson = new Gson();
+  private final Class<T> clazz;
 
-    @Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
-        try {
-            String json = new String(
-                    response.data, HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(
-                    gson.fromJson(json, clazz), HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
-        } catch (JsonSyntaxException e) {
-            return Response.error(new ParseError(e));
-        }
+
+  /**
+   * Creates a new request.
+   *
+   * @param method
+   *     the HTTP method to use
+   * @param url
+   *     URL to fetch the JSON from
+   * @param jsonRequest
+   *     A {@link JSONObject} to post with the request. Null is allowed and
+   *     indicates no parameters will be posted along with request.
+   * @param listener
+   *     Listener to receive the JSON response
+   * @param errorListener
+   *     Error listener, or null to ignore errors.
+   */
+  public GsonRequest(int method, String url, Class<T> clazz, JSONObject jsonRequest,
+                     Listener<T> listener, ErrorListener errorListener) {
+    super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
+          errorListener);
+    this.clazz = clazz;
+  }
+
+
+  @Override
+  protected Response<T> parseNetworkResponse(NetworkResponse response) {
+    try {
+      String json = new String(
+          response.data, HttpHeaderParser.parseCharset(response.headers));
+      return Response.success(
+          gson.fromJson(json, clazz), HttpHeaderParser.parseCacheHeaders(response));
+    } catch (UnsupportedEncodingException e) {
+      return Response.error(new ParseError(e));
+    } catch (JsonSyntaxException e) {
+      return Response.error(new ParseError(e));
     }
+  }
 }
 /*
 - (void)authorize

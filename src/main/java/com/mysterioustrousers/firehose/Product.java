@@ -1,20 +1,25 @@
 package com.mysterioustrousers.firehose;
 
+
+
 import com.google.gson.annotations.SerializedName;
 
+
+
 public class Product extends FHObject {
-    @SerializedName("kb_custom_domain")
-    public String kbCustomDomain;
 
-    @SerializedName("kb_subdomain")
-    public String kbSubdomain;
+  @SerializedName("kb_custom_domain")
+  public String kbCustomDomain;
 
-    @SerializedName("name")
-    public String name;
+  @SerializedName("kb_subdomain")
+  public String kbSubdomain;
 
-    @SerializedName("token")
-    public String token;
+  @SerializedName("name")
+  public String name;
 
-    @SerializedName("website")
-    public String website;
+  @SerializedName("token")
+  public String token;
+
+  @SerializedName("website")
+  public String website;
 }
