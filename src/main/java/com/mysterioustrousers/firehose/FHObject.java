@@ -2,7 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.Calendar;
+import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,7 +14,7 @@ public class FHObject {
   public int id;
 
   @SerializedName("created_at")
-  public Calendar createdAt;
+  public Date createdAt;
 
 
 
@@ -38,12 +38,12 @@ public class FHObject {
   }
 
 
-  public Calendar getCreatedAt() {
+  public Date getCreatedAt() {
     return this.createdAt;
   }
 
 
-  public void setCreatedAt(Calendar createdAt) {
+  public void setCreatedAt(Date createdAt) {
     this.createdAt = createdAt;
   }
 

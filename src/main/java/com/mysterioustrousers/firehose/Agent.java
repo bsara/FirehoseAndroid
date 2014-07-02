@@ -48,7 +48,9 @@ public class Agent extends FHObject {
 
 
   public static GsonRequest<Agent> login(String email, String password, Listener<Agent> listener, ErrorListener errorListener) {
-    String url = "https://api.firehoseapp.com/login";
+    //String url = "https://api.firehoseapp.com/login";
+    String url = "http://192.168.0.15:3000/login";
+    //String url = "http://10.0.2.2:3000/login";
 
     JSONObject jsonObject = new JSONObject();
     try {
