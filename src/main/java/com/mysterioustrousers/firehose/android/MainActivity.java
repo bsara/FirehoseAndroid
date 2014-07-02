@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.willoughby.firehose.R;
+import com.mysterioustrousers.firehose.R;
 
 
 public class MainActivity extends Activity {
