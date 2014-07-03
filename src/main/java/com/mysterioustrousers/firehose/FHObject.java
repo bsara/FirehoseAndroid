@@ -2,7 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.Date;
+import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,10 +11,10 @@ import com.google.gson.annotations.SerializedName;
 public class FHObject {
 
   @SerializedName("id")
-  public int id;
+  public Object id;
 
   @SerializedName("created_at")
-  public Date createdAt;
+  public String createdAt;
 
 
 
@@ -28,25 +28,62 @@ public class FHObject {
   // region: Getters & Setters
 
 
-  public int getId() {
+  public Object getId() {
     return this.id;
   }
 
 
-  public void setId(int id) {
+  public void setId(Object id) {
     this.id = id;
   }
 
 
-  public Date getCreatedAt() {
+  public String getCreatedAt() {
     return this.createdAt;
   }
 
 
-  public void setCreatedAt(Date createdAt) {
+  public void setCreatedAt(String createdAt) {
     this.createdAt = createdAt;
   }
 
 
   // endregion
+
+
+  public FHObject initWithObjectIdentifier(String identifier) {
+    // TODO some way of caching
+    // self = [self init];
+    this.id = identifier;
+    return this;
+  }
+
+    /*
+  public static FHObject objectWithIdentifier(Object identifier) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        __cachedObjects = [NSMutableArray array];
+    });
+
+    // if it has an identifier, look if it's already in the cache
+    if (identifier) {
+        for (FHObject *object in __cachedObjects) {
+            if (object.identifier && [object isKindOfClass:self] && [object isIdentifierEqualTo:identifier]) {
+                return object;
+            }
+        }
+    }
+
+    FHObject *object = [[self alloc] initWithObjectIdentifier:identifier];
+
+    return object;
+  }
+*/
+
+
+
+  protected static String generatedUUID() {
+    UUID uuid = UUID.randomUUID();
+    return uuid.toString();
+  }
 }

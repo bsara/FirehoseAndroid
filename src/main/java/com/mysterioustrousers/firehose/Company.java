@@ -54,12 +54,14 @@ public class Company extends FHObject {
   @SerializedName("agent_invites")
   public List<AgentInvite> agentInvites;
 
+  @SerializedName("products")
+  public List<Product> products;
 
 
   public static GsonArrayRequest fetchOnlineVisitors(String accessToken, final Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
     //String url = "https://chat.firehoseapp.com/online_visitors";
     //String url = "http://10.0.2.2:8080/online_visitors";
-    String url = "http://192.168.1.106:8080/online_visitors";
+    String url = "http://192.168.0.15:8080/online_visitors";
     HashMap<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token = %s", accessToken));
 
