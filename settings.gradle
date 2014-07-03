@@ -1,0 +1,3 @@
+include ':mt-android-commons', ':Volley', ':FirehoseAndroid'
+project(':mt-android-commons').projectDir = new File('libs/mt-android-commons')
+project(':Volley').projectDir = new File('libs/Volley')
