@@ -1,3 +1,6 @@
 [submodule "libs/Volley"]
 	path = libs/Volley
 	url = git@github.com:amozoss/volley.git
+[submodule "libs/mt-android-commons"]
+	path = libs/mt-android-commons
+	url = git@github.com:mysterioustrousers/mt-android-commons.git
