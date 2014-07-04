@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-  compile 'org.apache.directory.studio:org.apache.commons.lang:2.6@jar'
+  compile 'org.apache.commons:commons-lang3:3.+'
   compile 'com.google.code.gson:gson:2.1@jar'
   compile project(':Volley')
   compile project(':mt-android-commons')
