@@ -13,28 +13,28 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
-    defaultConfig {
-        applicationId 'com.mysterioustrousers.firehose'
-        minSdkVersion 15
-        targetSdkVersion 20
-        versionCode 0
-        versionName '0.0.0'
+  compileSdkVersion 20
+  buildToolsVersion '20.0.0'
+  defaultConfig {
+    applicationId 'com.mysterioustrousers.firehose'
+    minSdkVersion 15
+    targetSdkVersion 20
+    versionCode 0
+    versionName '0.0.0'
+  }
+  buildTypes {
+    release {
+      runProguard false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    productFlavors {
-    }
+  }
+  productFlavors {
+  }
 }
 
 dependencies {
   compile 'org.apache.commons:commons-lang3:3.+'
-  compile 'com.google.code.gson:gson:2.1@jar'
+  compile 'com.google.code.gson:gson:2.2.4@jar'
   compile project(':Volley')
   compile project(':mt-android-commons')
   compile fileTree(dir: 'libs', include: ['*.jar'])
