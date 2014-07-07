@@ -2,12 +2,17 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.android.volley.Response;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONArray;
 
 
 
@@ -78,6 +83,15 @@ public class Visitor extends FHObject implements Parcelable {
 
   @SerializedName("visitor_id")
   public String visitorId;
+
+  public static GsonArrayRequest chatInteractions(Agent agent, Visitor visitor, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+    String url = String.format("http://192.168.0.15:3000/visitors/%s/chat_interactions", visitor.visitorId);
+
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Authorization", String.format("Token token=\"%s\"",agent.accessToken));
+
+    return new GsonArrayRequest(url, headers, listener, errorListener);
+  }
 
 
   // TODO since it's already a json object maybe it can use that to be parcelable, oh well just do this for now.
