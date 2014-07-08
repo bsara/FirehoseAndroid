@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 
 public class EnvironmentManager {
+  // temporary way for IP address
+  public static String localIP = "192.168.1.19";
 
   // region: Singleton Implementation
 
