@@ -46,6 +46,9 @@ public class Agent extends FHObject {
   @SerializedName("companies")
   public List<Company> companies;
 
+  @SerializedName("devices")
+  public List<Device> devices;
+
 
   public static GsonRequest<Agent> login(String email, String password, Listener<Agent> listener, ErrorListener errorListener) {
     //String url = "https://api.firehoseapp.com/login";

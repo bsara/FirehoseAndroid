@@ -3,7 +3,10 @@ package com.mysterioustrousers.firehose;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
@@ -26,6 +29,7 @@ public class GsonRequest<T> extends JsonRequest<T> {
 
   private final Gson gson = new Gson();
   private final Class<T> clazz;
+  private Map<String, String> headers = null;
 
 
   /**
@@ -48,6 +52,21 @@ public class GsonRequest<T> extends JsonRequest<T> {
     super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
           errorListener);
     this.clazz = clazz;
+  }
+
+
+  public GsonRequest(int method, String url, Class<T> clazz, Map<String, String> headers, JSONObject jsonRequest,
+                     Listener<T> listener, ErrorListener errorListener) {
+    super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
+          errorListener);
+    this.clazz = clazz;
+    this.headers = headers;
+  }
+
+
+  @Override
+  public Map<String, String> getHeaders() throws AuthFailureError {
+    return (this.headers == null) ? new HashMap<String, String>() : this.headers;
   }
 
 
