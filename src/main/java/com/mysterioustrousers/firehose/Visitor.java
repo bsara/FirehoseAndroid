@@ -171,7 +171,7 @@ public class Visitor extends FHObject implements Parcelable {
     parcel.writeString(this.getTimeZone());
     parcel.writeInt(this.getUnreadCount());
     //parcel.writeSerializable(this.getVisitedCurrentUrlAt());
-    parcel.writeString(this.getId());
+    parcel.writeString((String)this.getId());
   }
 
 
@@ -179,13 +179,15 @@ public class Visitor extends FHObject implements Parcelable {
   // region Getters & Setters
 
 
-  public String getId() {
+  @Override
+  public Object getId() {
     return _id;
   }
 
 
-  public void setId(String id) {
-    _id = id;
+  @Override
+  public void setId(Object id) {
+    _id = id.toString();
   }
 
 

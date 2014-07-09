@@ -36,10 +36,10 @@ public class ChatInteraction extends Interaction {
     // TODO some way of caching
     //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generatedUUID()));
     ChatInteraction interaction = new ChatInteraction();
-    interaction.id = FHObject.generatedUUID();
+    interaction.setId(FHObject.generatedUUID());
     interaction.agent = agent;
     interaction.body = body;
-    interaction.createdAt = new Date().toString();
+    interaction.setCreatedAt(new Date().toString());
     interaction.isOutgoing = true;
     interaction.senderDisplayName = agent.shortName();
     return interaction;

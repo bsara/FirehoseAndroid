@@ -34,6 +34,7 @@ android {
 
 dependencies {
   compile 'org.apache.commons:commons-lang3:3.+'
+  compile 'org.apache.commons:commons-collections4:4.+'
   compile 'com.google.code.gson:gson:2.2.4@jar'
   compile project(':Volley')
   compile project(':mt-android-commons')

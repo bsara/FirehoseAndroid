@@ -8,13 +8,13 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class FHObject {
+public abstract class FHObject {
 
   @SerializedName("id")
-  public Object id;
+  private Object _id;
 
   @SerializedName("created_at")
-  public String createdAt;
+  private String _createdAt; // TODO: Make this a Calendar object rather than a String
 
 
 
@@ -24,61 +24,11 @@ public class FHObject {
   }
 
 
-
-  // region: Getters & Setters
-
-
-  public Object getId() {
-    return this.id;
+  /*
+  public static FHObject createWithId(String id) {
+    // Use FHObjectFactory instead of this method!!!!
   }
-
-
-  public void setId(Object id) {
-    this.id = id;
-  }
-
-
-  public String getCreatedAt() {
-    return this.createdAt;
-  }
-
-
-  public void setCreatedAt(String createdAt) {
-    this.createdAt = createdAt;
-  }
-
-
-  // endregion
-
-
-  public FHObject initWithObjectIdentifier(String identifier) {
-    // TODO some way of caching
-    // self = [self init];
-    this.id = identifier;
-    return this;
-  }
-
-    /*
-  public static FHObject objectWithIdentifier(Object identifier) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __cachedObjects = [NSMutableArray array];
-    });
-
-    // if it has an identifier, look if it's already in the cache
-    if (identifier) {
-        for (FHObject *object in __cachedObjects) {
-            if (object.identifier && [object isKindOfClass:self] && [object isIdentifierEqualTo:identifier]) {
-                return object;
-            }
-        }
-    }
-
-    FHObject *object = [[self alloc] initWithObjectIdentifier:identifier];
-
-    return object;
-  }
-*/
+  */
 
 
 
@@ -86,4 +36,37 @@ public class FHObject {
     UUID uuid = UUID.randomUUID();
     return uuid.toString();
   }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    return (this == obj)
+           || (this.getClass() == obj.getClass() && this.getId().equals(((FHObject)obj).getId()));
+  }
+
+
+  // region: Getters & Setters
+
+
+  public Object getId() {
+    return _id;
+  }
+
+
+  public void setId(Object id) {
+    _id = id;
+  }
+
+
+  public String getCreatedAt() {
+    return _createdAt;
+  }
+
+
+  public void setCreatedAt(String createdAt) {
+    _createdAt = createdAt;
+  }
+
+
+  // endregion
 }
