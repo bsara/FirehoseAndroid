@@ -59,9 +59,7 @@ public class Company extends FHObject {
 
 
   public static GsonArrayRequest fetchOnlineVisitors(String accessToken, final Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-    //String url = "https://chat.firehoseapp.com/online_visitors";
-    //String url = "http://10.0.2.2:8080/online_visitors";
-    String url = String.format("http://%s:8080/online_visitors", EnvironmentManager.localIP);
+    String url = String.format("%s/online_visitors", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.CHAT_SERVER));
     HashMap<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token = %s", accessToken));
 

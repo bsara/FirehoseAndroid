@@ -7,8 +7,6 @@ import java.util.HashMap;
 
 
 public class EnvironmentManager {
-  // temporary way for IP address
-  public static String localIP = "192.168.1.19";
 
   // region: Singleton Implementation
 
@@ -17,9 +15,20 @@ public class EnvironmentManager {
 
   public static EnvironmentManager getInstance() {
     if (s_instance == null) {
-      s_instance = new EnvironmentManager();
+      s_instance = new EnvironmentManager(false);
     }
     return s_instance;
+  }
+
+
+  private static EnvironmentManager s_remoteInstance = null;
+
+
+  public static EnvironmentManager getRemoteInstance() {
+    if (s_remoteInstance == null) {
+      s_remoteInstance = new EnvironmentManager(true);
+    }
+    return s_remoteInstance;
   }
 
   // endregion
@@ -33,84 +42,86 @@ public class EnvironmentManager {
 
 
 
-  private EnvironmentManager() {
+  private EnvironmentManager(boolean isRemoteInstance) {
     // region: Setup Domains
+
+    String devAndTestDomain = isRemoteInstance ? "192.168.0.20" : "localhost";
 
     _domains = new HashMap<FHApplication, HashMap<Environment, String>>();
 
     HashMap<Environment, String> apiDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "api.firehoseapp.com");
     apiDomains.put(Environment.PRODUCTION, "api.firehoseapp.com");
     _domains.put(FHApplication.API, apiDomains);
 
     HashMap<Environment, String> browserDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "beta.firehoseapp.com");
     apiDomains.put(Environment.PRODUCTION, "firehoseapp.com");
     _domains.put(FHApplication.BROWSER, browserDomains);
 
     HashMap<Environment, String> billingDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "billing.firehoseapp.com");
     apiDomains.put(Environment.PRODUCTION, "billing.firehoseapp.com");
     _domains.put(FHApplication.BILLING, billingDomains);
 
     HashMap<Environment, String> filesDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "frh.io");
     apiDomains.put(Environment.PRODUCTION, "frh.io");
     _domains.put(FHApplication.FILES, filesDomains);
 
     HashMap<Environment, String> marketingDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "beta.firehosedesk.com");
     apiDomains.put(Environment.PRODUCTION, "firehosedesk.com");
     _domains.put(FHApplication.MARKETING, marketingDomains);
 
     HashMap<Environment, String> settingsDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "beta_settings.firehoseapp.com");
     apiDomains.put(Environment.PRODUCTION, "settings.firehoseapp.com");
     _domains.put(FHApplication.SETTINGS, settingsDomains);
 
     HashMap<Environment, String> tweetLongerDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "beta_tl.frh.io");
     apiDomains.put(Environment.PRODUCTION, "tl.frh.io");
     _domains.put(FHApplication.TWEET_LONGER, tweetLongerDomains);
 
     HashMap<Environment, String> kbDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "firehosesupport.com");
     apiDomains.put(Environment.PRODUCTION, "firehosehelp.com");
     _domains.put(FHApplication.KB, kbDomains);
 
     HashMap<Environment, String> chatBrowserDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "???");
     apiDomains.put(Environment.PRODUCTION, "???");
     _domains.put(FHApplication.CHAT_BROWSER, chatBrowserDomains);
 
     HashMap<Environment, String> chatMarketingDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "firehosechat.com");
     apiDomains.put(Environment.PRODUCTION, "firehosechat.com");
     _domains.put(FHApplication.CHAT_MARKETING, chatMarketingDomains);
 
     HashMap<Environment, String> chatServerDomains = new HashMap<Environment, String>();
-    apiDomains.put(Environment.DEV, "localhost");
-    apiDomains.put(Environment.TEST, "localhost");
+    apiDomains.put(Environment.DEV, devAndTestDomain);
+    apiDomains.put(Environment.TEST, devAndTestDomain);
     apiDomains.put(Environment.BETA, "chat.firehoseapp.com");
     apiDomains.put(Environment.PRODUCTION, "chat.firehoseapp.com");
     _domains.put(FHApplication.CHAT_SERVER, chatServerDomains);

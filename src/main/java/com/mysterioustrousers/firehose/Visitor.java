@@ -84,11 +84,12 @@ public class Visitor extends FHObject implements Parcelable {
   @SerializedName("visitor_id")
   public String visitorId;
 
+
   public static GsonArrayRequest chatInteractions(Agent agent, Visitor visitor, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-    String url = String.format("http://%s:3000/visitors/%s/chat_interactions",EnvironmentManager.localIP, visitor.visitorId);
+    String url = String.format("%s/visitors/%s/chat_interactions", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), visitor.visitorId);
 
     Map<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"",agent.accessToken));
+    headers.put("Authorization", String.format("Token token=\"%s\"", agent.accessToken));
 
     return new GsonArrayRequest(url, headers, listener, errorListener);
   }
