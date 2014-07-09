@@ -15,9 +15,6 @@ import org.json.JSONObject;
 
 
 
-/**
- * Created by dan on 7/8/14.
- */
 public class Device extends FHObject {
 
   @SerializedName("token")
@@ -54,7 +51,7 @@ public class Device extends FHObject {
   public static GsonRequest<Device> create(Agent agent, String token, String model, String bundleIndentifier,
                                            String locale, String language, String timezone,
                                            Listener<Device> listener, ErrorListener errorListener) {
-    String url = String.format("http://%s:3000/devices", EnvironmentManager.localIP);
+    String url = String.format("/devices", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
     String uuid = FHObject.generatedUUID(); // Just generate a uuid, since android's isn't garenteed
     String environment = "production"; // dev and prod are the same
     String ipAddress = "0.0.0.0"; // why is this needed?
