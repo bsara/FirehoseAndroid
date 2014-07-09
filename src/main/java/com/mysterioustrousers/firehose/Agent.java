@@ -51,7 +51,6 @@ public class Agent extends FHObject {
 
 
   public static GsonRequest<Agent> login(String email, String password, Listener<Agent> listener, ErrorListener errorListener) {
-    //String url = "https://api.firehoseapp.com/login";
     String url = String.format("%s/login", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
 
     JSONObject jsonObject = new JSONObject();
