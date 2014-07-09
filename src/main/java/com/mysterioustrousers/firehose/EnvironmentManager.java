@@ -166,7 +166,7 @@ public class EnvironmentManager {
 
   private String getPort(FHApplication app, Environment env, ServerEnvironment serverEnv) {
     if (env.ordinal() > Environment.TEST.ordinal()) {
-      return "";
+      return StringUtils.EMPTY;
     }
     if (app == FHApplication.CHAT_SERVER) {
       return ":8080";
