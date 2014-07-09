@@ -4,9 +4,14 @@ package com.mysterioustrousers.firehose;
 
 import java.util.HashMap;
 
+import com.mysterioustrousers.lang.StringUtils;
+
 
 
 public class EnvironmentManager {
+
+  public static final String REMOTE_DEV_AND_TEST_DOMAIN_PROPERTY_NAME = "MT_FH_DEV_AND_TEST_DOMAIN";
+
 
   // region: Singleton Implementation
 
@@ -21,7 +26,8 @@ public class EnvironmentManager {
   }
 
 
-  private static EnvironmentManager s_remoteInstance = null;
+  private static EnvironmentManager s_remoteInstance         = null;
+  private static String             s_remoteDevAndTestDomain = null;
 
 
   public static EnvironmentManager getRemoteInstance() {
@@ -45,7 +51,14 @@ public class EnvironmentManager {
   private EnvironmentManager(boolean isRemoteInstance) {
     // region: Setup Domains
 
-    String devAndTestDomain = isRemoteInstance ? "192.168.0.20" : "localhost";
+    String devAndTestDomain = "localhost";
+
+    if (isRemoteInstance) {
+      String remoteDevAndTestDomain = System.getProperty(EnvironmentManager.REMOTE_DEV_AND_TEST_DOMAIN_PROPERTY_NAME, null);
+      if (!StringUtils.isNullOrEmpty(remoteDevAndTestDomain)) {
+        devAndTestDomain = remoteDevAndTestDomain;
+      }
+    }
 
     _domains = new HashMap<FHApplication, HashMap<Environment, String>>();
 
