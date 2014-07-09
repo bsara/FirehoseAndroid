@@ -30,9 +30,6 @@ public class Visitor extends FHObject implements Parcelable {
   @SerializedName("current_url")
   public String currentURL;
 
-  @SerializedName("custom_attributes")
-  public String customAttributes;
-
   @SerializedName("disconnected_at")
   public String disconnectedAt;
 
@@ -107,7 +104,6 @@ public class Visitor extends FHObject implements Parcelable {
       // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
       //mVisitor.connectedAt = (java.util.Date) source.readSerializable();//connectedAt);
       mVisitor.currentURL = source.readString();//currentURL);
-      mVisitor.customAttributes = source.readString();//customAttributes);
       //mVisitor.disconnectedAt = (java.util.Date) source.readSerializable();//disconnectedAt);
       mVisitor.displayName = source.readString();//displayName);
       mVisitor.email = source.readString();//email);
@@ -153,7 +149,6 @@ public class Visitor extends FHObject implements Parcelable {
     // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
     //parcel.writeSerializable(connectedAt);
     parcel.writeString(currentURL);
-    parcel.writeString(customAttributes);
     //parcel.writeSerializable(disconnectedAt);
     parcel.writeString(displayName);
     parcel.writeString(email);
