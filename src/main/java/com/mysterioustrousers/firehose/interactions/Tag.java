@@ -11,5 +11,30 @@ import com.mysterioustrousers.firehose.FHObject;
 public class Tag extends FHObject {
 
   @SerializedName("label")
-  public String label;
+  private String _label;
+
+
+
+  public Tag() {
+    super();
+
+    this.setLabel(null);
+  }
+
+
+
+  // region Getters & Setters
+
+
+  public String getLabel() {
+    return _label;
+  }
+
+
+  public void setLabel(String label) {
+    _label = label;
+  }
+
+
+  // endregion
 }

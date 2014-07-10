@@ -17,6 +17,7 @@ public class ChatInteraction extends Interaction {
     ChatInteractionKindNavigation
   }
 
+
   public Visitor visitor;
 
   public String deliveredAt;
@@ -32,6 +33,15 @@ public class ChatInteraction extends Interaction {
   public ChatInteractionKind kind;
 
 
+
+  public ChatInteraction() {
+    super();
+
+    // TODO: Implement
+  }
+
+
+
   public static ChatInteraction chatInteractionWithBody(String body, Agent agent) {
     // TODO some way of caching
     //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generatedUUID()));
@@ -41,7 +51,7 @@ public class ChatInteraction extends Interaction {
     interaction.body = body;
     interaction.setCreatedAt(new Date().toString());
     interaction.isOutgoing = true;
-    interaction.senderDisplayName = agent.shortName();
+    interaction.senderDisplayName = agent.getShortName();
     return interaction;
   }
 
@@ -50,5 +60,5 @@ public class ChatInteraction extends Interaction {
     if (identifier==null) throw new AssertionError("You cannot create a chat interaction without an identifier.");
     return (ChatInteraction)this.objectWithIdentifier:identifier];
   }
-*/
+  */
 }

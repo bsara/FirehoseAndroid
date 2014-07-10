@@ -25,7 +25,7 @@ public class Visitor extends FHObject implements Parcelable {
   private int _agentId;
 
   @SerializedName("box_state")
-  private BoxState _boxState;
+  private String _boxState; //private BoxState _boxState;
 
   @SerializedName("connected_at")
   private String _connectedAt;
@@ -49,7 +49,7 @@ public class Visitor extends FHObject implements Parcelable {
   private String _ipAddress;
 
   @SerializedName("is_typing")
-  private boolean _isTyping;
+  private Boolean _isTyping;
 
   @SerializedName("location")
   private List<Double> _location;
@@ -64,7 +64,7 @@ public class Visitor extends FHObject implements Parcelable {
   private String _mostRecentChatReceivedAt;
 
   @SerializedName("needs_response")
-  private boolean _needsResponse;
+  private Boolean _needsResponse;
 
   @SerializedName("product_token")
   private String _productToken;
@@ -83,11 +83,38 @@ public class Visitor extends FHObject implements Parcelable {
 
 
 
+  public Visitor() {
+    super();
+
+    this.setAgentId(-1);
+    this.setBoxState("none"); // this.setBoxState(BoxState.NONE);
+    this.setConnectedAt(null);
+    this.setCurrentURL(null);
+    this.setCustomAttributes(null);
+    this.setDisconnectedAt(null);
+    this.setDisplayName(null);
+    this.setEmail(null);
+    this.setIPAddress(null);
+    this.setIsTyping(false);
+    this.setLocation(null);
+    this.setLocationString(null);
+    this.setMostRecentChat(null);
+    this.setMostRecentChatReceivedAt(null);
+    this.setNeedsResponse(false);
+    this.setProductToken(null);
+    this.setReferrerURL(null);
+    this.setTimeZone(null);
+    this.setUnreadCount(0);
+    this.setVisitedCurrentUrlAt(null);
+  }
+
+
+
   public static GsonArrayRequest chatInteractions(Agent agent, Visitor visitor, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
     String url = String.format("%s/visitors/%s/chat_interactions", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), visitor.getId());
 
     Map<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", agent.accessToken));
+    headers.put("Authorization", String.format("Token token=\"%s\"", agent.getAccessToken()));
 
     return new GsonArrayRequest(url, headers, listener, errorListener);
   }
@@ -102,7 +129,7 @@ public class Visitor extends FHObject implements Parcelable {
       Visitor visitor = new Visitor();
 
       visitor.setAgentId(source.readInt());
-      visitor.setBoxState(BoxState.parse(source.readString()));
+      visitor.setBoxState(source.readString());//visitor.setBoxState((BoxState)source.readSerializable());
       // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
       //mVisitor._connectedAt = (java.util.Date) source.readSerializable();//_connectedAt);
       visitor.setCurrentURL(source.readString());
@@ -149,7 +176,7 @@ public class Visitor extends FHObject implements Parcelable {
   @Override
   public void writeToParcel(Parcel parcel, int i) {
     parcel.writeInt(this.getAgentId());
-    parcel.writeString(this.getBoxState().toString());
+    parcel.writeString(this.getBoxState());//parcel.writeSerializable(this.getBoxState());
     // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
     //parcel.writeSerializable(this.getConnectedAt());
     parcel.writeString(this.getCurrentURL());
@@ -160,12 +187,16 @@ public class Visitor extends FHObject implements Parcelable {
     // TODO env in parcelable
     //public HashMap<String, HashMap<String, HashMap<String, String>>> env;
     parcel.writeString(this.getIPAddress());
-    parcel.writeByte((byte)(this.isTyping() ? 1 : 0));
+    if (this.isTyping() != null) {
+      parcel.writeByte((byte)(this.isTyping() ? 1 : 0));
+    }
     //parcel.writeList(this.getLocation());
     parcel.writeString(this.getLocationString());
     parcel.writeString(this.getMostRecentChat());
     //parcel.writeSerializable(this.getMostRecentChatReceivedAt());
-    parcel.writeByte((byte)(this.needsResponse() ? 1 : 0));
+    if (this.needsResponse() != null) {
+      parcel.writeByte((byte)(this.needsResponse() ? 1 : 0));
+    }
     parcel.writeString(this.getProductToken());
     parcel.writeString(this.getReferrerURL());
     parcel.writeString(this.getTimeZone());
@@ -201,12 +232,24 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
+  /*
   public BoxState getBoxState() {
     return _boxState;
   }
 
 
   public void setBoxState(BoxState boxState) {
+    _boxState = boxState;
+  }
+  */
+
+
+  public String getBoxState() {
+    return _boxState;
+  }
+
+
+  public void setBoxState(String boxState) {
     _boxState = boxState;
   }
 
@@ -216,8 +259,8 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setConnectedAt(String _connectedAt) {
-    _connectedAt = _connectedAt;
+  public void setConnectedAt(String connectedAt) {
+    _connectedAt = connectedAt;
   }
 
 
@@ -236,8 +279,8 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setCustomAttributes(String _customAttributes) {
-    _customAttributes = _customAttributes;
+  public void setCustomAttributes(String customAttributes) {
+    _customAttributes = customAttributes;
   }
 
 
@@ -276,17 +319,17 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setIPAddress(String _ipAddress) {
-    _ipAddress = _ipAddress;
+  public void setIPAddress(String ipAddress) {
+    _ipAddress = ipAddress;
   }
 
 
-  public boolean isTyping() {
+  public Boolean isTyping() {
     return _isTyping;
   }
 
 
-  public void setIsTyping(boolean isTyping) {
+  public void setIsTyping(Boolean isTyping) {
     _isTyping = isTyping;
   }
 
@@ -306,8 +349,8 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setLocationString(String _locationString) {
-    _locationString = _locationString;
+  public void setLocationString(String locationString) {
+    _locationString = locationString;
   }
 
 
@@ -331,13 +374,13 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public boolean needsResponse() {
+  public Boolean needsResponse() {
     return _needsResponse;
   }
 
 
-  public void setNeedsResponse(boolean _needsResponse) {
-    _needsResponse = _needsResponse;
+  public void setNeedsResponse(Boolean needsResponse) {
+    _needsResponse = needsResponse;
   }
 
 
@@ -346,8 +389,8 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setProductToken(String _productToken) {
-    _productToken = _productToken;
+  public void setProductToken(String productToken) {
+    _productToken = productToken;
   }
 
 
@@ -356,8 +399,8 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setReferrerURL(String _referrerURL) {
-    _referrerURL = _referrerURL;
+  public void setReferrerURL(String referrerURL) {
+    _referrerURL = referrerURL;
   }
 
 
@@ -366,8 +409,8 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public void setTimeZone(String _timeZone) {
-    _timeZone = _timeZone;
+  public void setTimeZone(String timeZone) {
+    _timeZone = timeZone;
   }
 
 

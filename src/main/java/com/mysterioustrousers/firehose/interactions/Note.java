@@ -2,5 +2,16 @@ package com.mysterioustrousers.firehose.interactions;
 
 
 
-public class Note {
+import com.mysterioustrousers.firehose.FHObject;
+
+
+
+public class Note extends FHObject {
+
+
+  public Note() {
+    super();
+
+    // TODO: Implement
+  }
 }

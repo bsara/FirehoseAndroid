@@ -2,5 +2,16 @@ package com.mysterioustrousers.firehose.kb;
 
 
 
-public class Article {
+import com.mysterioustrousers.firehose.FHObject;
+
+
+
+public class Article extends FHObject {
+
+
+  public Article() {
+    super();
+
+    // TODO: Implement
+  }
 }

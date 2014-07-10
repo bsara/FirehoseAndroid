@@ -13,7 +13,7 @@ public enum BoxState {
   DISCONNECTED;
 
 
-  public static BoxState parse(String boxStateStr) {
+  public static BoxState fromString(String boxStateStr) {
     if (StringUtils.isNullOrWhiteSpace(boxStateStr)) {
       return null;
     }

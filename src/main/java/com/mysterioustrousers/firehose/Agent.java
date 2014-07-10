@@ -2,6 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.android.volley.ParseError;
@@ -9,6 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.google.gson.annotations.SerializedName;
+import com.mysterioustrousers.lang.StringUtils;
 
 import org.json.JSONObject;
 
@@ -16,38 +18,60 @@ import org.json.JSONObject;
 
 public class Agent extends FHObject {
 
+  private static transient Agent s_loggedInAgent = null;
+
+
   @SerializedName("access_token")
-  public String accessToken;
+  private String _accessToken;
 
   @SerializedName("browser_token")
-  public String browserToken;
+  private String _browserToken;
 
   @SerializedName("email")
-  public String email;
+  private String _email;
 
   @SerializedName("first_name")
-  public String firstName;
+  private String _firstName;
 
   @SerializedName("last_name")
-  public String lastName;
+  private String _lastName;
 
   @SerializedName("url_token")
-  public String urlToken;
+  private String _urlToken;
 
   @SerializedName("display_name")
-  public String displayName;
+  private String _displayName;
 
   @SerializedName("avatar_url")
-  public String avatarURL;
+  private String _avatarURL;
 
   @SerializedName("agent_settings")
-  public AgentSettings agentSettings;
+  private AgentSettings _agentSettings;
 
   @SerializedName("companies")
-  public List<Company> companies;
+  private List<Company> _companies;  // TODO: Change from List to Set
 
   @SerializedName("devices")
-  public List<Device> devices;
+  private List<Device> _devices;  // TODO: Change from List to Set
+
+
+
+  public Agent() {
+    super();
+
+    this.setAccessToken(null);
+    this.setBrowserToken(null);
+    this.setEmail(null);
+    this.setFirstName(null);
+    this.setLastName(null);
+    this.setURLToken(null);
+    this.setDisplayName(null);
+    this.setAvatarURL(null);
+    this.setAgentSettings(new AgentSettings());
+    this.setCompanies(new ArrayList<Company>());
+    this.setDevices(new ArrayList<Device>());
+  }
+
 
 
   public static GsonRequest<Agent> login(String email, String password, Listener<Agent> listener, ErrorListener errorListener) {
@@ -61,13 +85,139 @@ public class Agent extends FHObject {
       errorListener.onErrorResponse(new ParseError(e));
     }
 
-    GsonRequest<Agent> gsonRequest = new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, jsonObject, listener, errorListener);
-    return gsonRequest;
+    return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, jsonObject, listener, errorListener);
   }
 
 
-  public String shortName() {
-    String lastInitial = this.lastName.length() > 0 ? String.format(" %s.", this.lastName.substring(0, 1)) : "";
-    return String.format("%s %s", this.firstName, lastInitial);
+  public String getShortName() {
+    String lastInitial = (!this.getLastName().isEmpty()) ? String.format(" %s.", this.getLastName().substring(0, 1)) : StringUtils.EMPTY;
+    return String.format("%s %s", this.getFirstName(), lastInitial);
   }
+
+
+
+  // region Getters & Setters
+
+
+  public static Agent getLoggedInAgent() {
+    return s_loggedInAgent;
+  }
+
+
+  public static void setLoggedInAgent(Agent agent) {
+    s_loggedInAgent = agent;
+  }
+
+
+  public String getAccessToken() {
+    return _accessToken;
+  }
+
+
+  public void setAccessToken(String accessToken) {
+    _accessToken = accessToken;
+  }
+
+
+  public String getBrowserToken() {
+    return _browserToken;
+  }
+
+
+  public void setBrowserToken(String browserToken) {
+    _browserToken = browserToken;
+  }
+
+
+  public String getEmail() {
+    return _email;
+  }
+
+
+  public void setEmail(String email) {
+    _email = email;
+  }
+
+
+  public String getFirstName() {
+    return _firstName;
+  }
+
+
+  public void setFirstName(String firstName) {
+    _firstName = firstName;
+  }
+
+
+  public String getLastName() {
+    return _lastName;
+  }
+
+
+  public void setLastName(String lastName) {
+    _lastName = lastName;
+  }
+
+
+  public String getURLToken() {
+    return _urlToken;
+  }
+
+
+  public void setURLToken(String urlToken) {
+    _urlToken = urlToken;
+  }
+
+
+  public String getDisplayName() {
+    return _displayName;
+  }
+
+
+  public void setDisplayName(String displayName) {
+    _displayName = displayName;
+  }
+
+
+  public String getAvatarURL() {
+    return _avatarURL;
+  }
+
+
+  public void setAvatarURL(String avatarURL) {
+    _avatarURL = avatarURL;
+  }
+
+
+  public AgentSettings getAgentSettings() {
+    return _agentSettings;
+  }
+
+
+  public void setAgentSettings(AgentSettings agentSettings) {
+    _agentSettings = agentSettings;
+  }
+
+
+  public List<Company> getCompanies() {
+    return _companies;
+  }
+
+
+  public void setCompanies(List<Company> companies) {
+    _companies = companies;
+  }
+
+
+  public List<Device> getDevices() {
+    return _devices;
+  }
+
+
+  public void setDevices(List<Device> devices) {
+    _devices = devices;
+  }
+
+
+  // endregion
 }

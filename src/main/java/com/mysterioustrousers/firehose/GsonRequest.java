@@ -27,9 +27,10 @@ import org.json.JSONObject;
  */
 public class GsonRequest<T> extends JsonRequest<T> {
 
-  private final Gson gson = new Gson();
-  private final Class<T> clazz;
-  private Map<String, String> headers = null;
+  private final Gson _gson = new Gson();
+  private final Class<T> _clazz;
+  private Map<String, String> _headers = null;
+
 
 
   /**
@@ -47,36 +48,32 @@ public class GsonRequest<T> extends JsonRequest<T> {
    * @param errorListener
    *     Error listener, or null to ignore errors.
    */
-  public GsonRequest(int method, String url, Class<T> clazz, JSONObject jsonRequest,
-                     Listener<T> listener, ErrorListener errorListener) {
-    super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
-          errorListener);
-    this.clazz = clazz;
+  public GsonRequest(int method, String url, Class<T> clazz, JSONObject jsonRequest, Listener<T> listener, ErrorListener errorListener) {
+    super(method, url, ((jsonRequest == null) ? null : jsonRequest.toString()), listener, errorListener);
+
+    _clazz = clazz;
   }
 
 
-  public GsonRequest(int method, String url, Class<T> clazz, Map<String, String> headers, JSONObject jsonRequest,
-                     Listener<T> listener, ErrorListener errorListener) {
-    super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
-          errorListener);
-    this.clazz = clazz;
-    this.headers = headers;
+  public GsonRequest(int method, String url, Class<T> clazz, Map<String, String> headers, JSONObject jsonRequest, Listener<T> listener, ErrorListener errorListener) {
+    super(method, url, ((jsonRequest == null) ? null : jsonRequest.toString()), listener, errorListener);
+
+    _clazz = clazz;
+    _headers = headers;
   }
 
 
   @Override
   public Map<String, String> getHeaders() throws AuthFailureError {
-    return (this.headers == null) ? new HashMap<String, String>() : this.headers;
+    return (_headers == null) ? new HashMap<String, String>() : _headers;
   }
 
 
   @Override
   protected Response<T> parseNetworkResponse(NetworkResponse response) {
     try {
-      String json = new String(
-          response.data, HttpHeaderParser.parseCharset(response.headers));
-      return Response.success(
-          gson.fromJson(json, clazz), HttpHeaderParser.parseCacheHeaders(response));
+      String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+      return Response.success(_gson.fromJson(json, _clazz), HttpHeaderParser.parseCacheHeaders(response));
     } catch (UnsupportedEncodingException e) {
       return Response.error(new ParseError(e));
     } catch (JsonSyntaxException e) {
