@@ -68,7 +68,7 @@ public class Device extends FHObject {
   public static GsonRequest<Device> create(Agent agent, String token, String model, String bundleId,
                                            String locale, String language, String timezone,
                                            Listener<Device> listener, ErrorListener errorListener) {
-    String url = String.format("/devices", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+    String url = String.format("%s/devices", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
     String uuid = FHObject.generatedUUID(); // Just generate a uuid, since android's isn't guaranteed
     String environment = "production"; // dev and prod are the same
     String ipAddress = "0.0.0.0"; // why is this needed?
