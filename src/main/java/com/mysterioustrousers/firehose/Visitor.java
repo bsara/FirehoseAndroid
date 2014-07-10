@@ -90,7 +90,6 @@ public class Visitor extends FHObject implements Parcelable {
     this.setBoxState("none"); // this.setBoxState(BoxState.NONE);
     this.setConnectedAt(null);
     this.setCurrentURL(null);
-    this.setCustomAttributes(null);
     this.setDisconnectedAt(null);
     this.setDisplayName(null);
     this.setEmail(null);
@@ -133,7 +132,6 @@ public class Visitor extends FHObject implements Parcelable {
       // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
       //mVisitor._connectedAt = (java.util.Date) source.readSerializable();//_connectedAt);
       visitor.setCurrentURL(source.readString());
-      visitor.setCustomAttributes(source.readString());
       //mVisitor._disconnectedAt = (java.util.Date) source.readSerializable();//_disconnectedAt);
       visitor.setDisplayName(source.readString());
       visitor.setEmail(source.readString());
@@ -180,7 +178,6 @@ public class Visitor extends FHObject implements Parcelable {
     // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
     //parcel.writeSerializable(this.getConnectedAt());
     parcel.writeString(this.getCurrentURL());
-    parcel.writeString(this.getCustomAttributes());
     //parcel.writeSerializable(this.getDisconnectedAt());
     parcel.writeString(this.getDisplayName());
     parcel.writeString(this.getEmail());
@@ -271,16 +268,6 @@ public class Visitor extends FHObject implements Parcelable {
 
   public void setCurrentURL(String currentURL) {
     _currentURL = currentURL;
-  }
-
-
-  public String getCustomAttributes() {
-    return _customAttributes;
-  }
-
-
-  public void setCustomAttributes(String customAttributes) {
-    _customAttributes = customAttributes;
   }
 
 
