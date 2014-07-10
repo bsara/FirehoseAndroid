@@ -2,5 +2,12 @@ package com.mysterioustrousers.firehose.accounts;
 
 
 
-public class CustomerAccount {
+public class CustomerAccount extends Account {
+
+
+  public CustomerAccount() {
+    super();
+
+    // TODO: Implement
+  }
 }

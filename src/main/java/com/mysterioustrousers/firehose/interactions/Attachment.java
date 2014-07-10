@@ -2,5 +2,16 @@ package com.mysterioustrousers.firehose.interactions;
 
 
 
-public class Attachment {
+import com.mysterioustrousers.firehose.FHObject;
+
+
+
+public class Attachment extends FHObject {
+
+
+  public Attachment() {
+    super();
+
+    // TODO: Implement
+  }
 }

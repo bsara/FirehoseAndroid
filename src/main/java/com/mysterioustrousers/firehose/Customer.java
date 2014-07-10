@@ -2,8 +2,12 @@ package com.mysterioustrousers.firehose;
 
 
 
-/**
- * Created by dan on 7/2/14.
- */
-public class Customer {
+public class Customer extends FHObject {
+
+
+  public Customer() {
+    super();
+
+    // TODO: Implement
+  }
 }

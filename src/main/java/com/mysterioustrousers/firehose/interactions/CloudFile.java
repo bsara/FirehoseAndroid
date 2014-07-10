@@ -2,5 +2,16 @@ package com.mysterioustrousers.firehose.interactions;
 
 
 
-public class CloudFile {
+import com.mysterioustrousers.firehose.FHObject;
+
+
+
+public class CloudFile extends FHObject {
+
+
+  public CloudFile() {
+    super();
+
+    // TODO: Implement
+  }
 }
