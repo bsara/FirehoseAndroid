@@ -10,8 +10,8 @@ import com.android.volley.Request;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.google.gson.annotations.SerializedName;
-import com.mysterioustrousers.lang.StringUtils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 
