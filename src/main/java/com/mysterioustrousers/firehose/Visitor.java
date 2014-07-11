@@ -94,12 +94,12 @@ public class Visitor extends FHObject implements Parcelable {
     this.setDisplayName(null);
     this.setEmail(null);
     this.setIPAddress(null);
-    this.setIsTyping(false);
+    this.setIsTyping(null);
     this.setLocation(null);
     this.setLocationString(null);
     this.setMostRecentChat(null);
     this.setMostRecentChatReceivedAt(null);
-    this.setNeedsResponse(false);
+    this.setNeedsResponse(null);
     this.setProductToken(null);
     this.setReferrerURL(null);
     this.setTimeZone(null);

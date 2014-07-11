@@ -51,7 +51,8 @@ public class ChatInteraction extends Interaction {
     interaction.body = body;
     interaction.setCreatedAt(new Date().toString());
     interaction.isOutgoing = true;
-    interaction.senderDisplayName = agent.getShortName();
+    String firstName = agent.getFirstName();
+    interaction.senderDisplayName = !firstName.isEmpty() ? agent.getFirstName() : "Unknown";
     return interaction;
   }
 
