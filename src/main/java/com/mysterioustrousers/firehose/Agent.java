@@ -3,6 +3,7 @@ package com.mysterioustrousers.firehose;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.android.volley.ParseError;
@@ -86,6 +87,16 @@ public class Agent extends FHObject {
     }
 
     return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, jsonObject, listener, errorListener);
+  }
+
+
+  public static GsonRequest<Agent> loginWithToken(String accessToken, Listener<Agent> listener, ErrorListener errorListener) {
+    String url = String.format("%s/login", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+
+    HashMap<String, String> headers = new HashMap<String, String>();
+    headers.put("Authorization", String.format("Token token=\"%s\"", accessToken));
+
+    return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, headers, null, listener, errorListener);
   }
 
 
