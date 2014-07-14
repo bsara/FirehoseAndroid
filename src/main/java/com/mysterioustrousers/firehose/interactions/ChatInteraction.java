@@ -42,17 +42,20 @@ public class ChatInteraction extends Interaction {
 
 
 
-  public static ChatInteraction chatInteractionWithBody(String body, Agent agent) {
+  public static ChatInteraction chatInteractionWithBody(String body, Agent agent, Visitor visitor) {
     // TODO some way of caching
     //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generatedUUID()));
     ChatInteraction interaction = new ChatInteraction();
     interaction.setId(FHObject.generatedUUID());
     interaction.agent = agent;
     interaction.body = body;
+    interaction.visitor = visitor;
     interaction.setCreatedAt(new Date().toString());
     interaction.isOutgoing = true;
-    String firstName = agent.getFirstName();
-    interaction.senderDisplayName = !firstName.isEmpty() ? agent.getFirstName() : "Unknown";
+    if (agent != null && agent.getFirstName() != null) {
+      String firstName = agent.getFirstName();
+      interaction.senderDisplayName = !firstName.isEmpty() ? agent.getFirstName() : "Unknown";
+    }
     return interaction;
   }
 

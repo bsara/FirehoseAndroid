@@ -21,7 +21,7 @@ import org.json.JSONArray;
 public class Visitor extends FHObject implements Parcelable {
 
   @SerializedName("visitor_id")
-  private String _id;
+  private String _visitorId; // needs its own variable or else a Visitor will have two _id's, but can still be accessed with getId() and setId()
 
   @SerializedName("agent_id")
   private int _agentId;
@@ -213,15 +213,16 @@ public class Visitor extends FHObject implements Parcelable {
   // region Getters & Setters
 
 
+
   @Override
   public Object getId() {
-    return _id;
+    return _visitorId;
   }
 
 
   @Override
   public void setId(Object id) {
-    _id = id.toString();
+    _visitorId = id.toString();
   }
 
 
