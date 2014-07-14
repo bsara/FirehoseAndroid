@@ -2,6 +2,8 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class Visitor extends FHObject implements Parcelable {
   private String _connectedAt;
 
   @SerializedName("current_url")
-  private String _currentURL;
+  private URL _currentURL;
 
   @SerializedName("disconnected_at")
   private String _disconnectedAt;
@@ -131,7 +133,11 @@ public class Visitor extends FHObject implements Parcelable {
       visitor.setBoxState(source.readString());//visitor.setBoxState((BoxState)source.readSerializable());
       // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
       //mVisitor._connectedAt = (java.util.Date) source.readSerializable();//_connectedAt);
-      visitor.setCurrentURL(source.readString());
+      try {
+        visitor.setCurrentURL(new URL(source.readString()));
+      } catch (MalformedURLException e) {
+        e.printStackTrace();
+      }
       //mVisitor._disconnectedAt = (java.util.Date) source.readSerializable();//_disconnectedAt);
       visitor.setDisplayName(source.readString());
       visitor.setEmail(source.readString());
@@ -177,7 +183,7 @@ public class Visitor extends FHObject implements Parcelable {
     parcel.writeString(this.getBoxState());//parcel.writeSerializable(this.getBoxState());
     // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
     //parcel.writeSerializable(this.getConnectedAt());
-    parcel.writeString(this.getCurrentURL());
+    parcel.writeString(this.getCurrentURL().toString());
     //parcel.writeSerializable(this.getDisconnectedAt());
     parcel.writeString(this.getDisplayName());
     parcel.writeString(this.getEmail());
@@ -261,12 +267,12 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public String getCurrentURL() {
+  public URL getCurrentURL() {
     return _currentURL;
   }
 
 
-  public void setCurrentURL(String currentURL) {
+  public void setCurrentURL(URL currentURL) {
     _currentURL = currentURL;
   }
 
