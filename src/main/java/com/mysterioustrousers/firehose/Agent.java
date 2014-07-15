@@ -2,7 +2,9 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,13 +92,34 @@ public class Agent extends FHObject {
   }
 
 
-  public static GsonRequest<Agent> loginWithToken(String accessToken, Listener<Agent> listener, ErrorListener errorListener) {
+  public static GsonRequest<Agent> login(String accessToken, Listener<Agent> listener, ErrorListener errorListener) {
     String url = String.format("%s/login", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
 
     HashMap<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token=\"%s\"", accessToken));
 
     return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, headers, null, listener, errorListener);
+  }
+
+
+  public static GsonRequest<Agent> create(String email, String password, String firstName, String lastName, Listener<Agent> listener, ErrorListener errorListener) {
+    String url = String.format("%s/agents", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+
+    JSONObject jsonObject = new JSONObject();
+    JSONObject agent = new JSONObject();
+    try {
+      agent.put("email", email);
+      agent.put("first_name", firstName);
+      agent.put("last_name", lastName);
+      agent.put("password", password);
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+      agent.put("last_request_at", sdf.format(new Date()));
+      jsonObject.put("agent", agent);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, jsonObject, listener, errorListener);
   }
 
 
