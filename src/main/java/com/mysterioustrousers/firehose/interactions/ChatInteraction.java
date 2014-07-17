@@ -20,7 +20,8 @@ public class ChatInteraction extends Interaction {
   }
 
 
-  private Visitor _visitor;
+  @SerializedName("visitor_id")
+  private String _visitorId;
 
 
 
@@ -62,7 +63,7 @@ public class ChatInteraction extends Interaction {
     interaction.setId(FHObject.generatedUUID());
     interaction.agent = agent;
     interaction.body = body;
-    interaction.setVisitor(visitor);
+    interaction.setVisitorId((String)visitor.getId());
     interaction.setCreatedAt(new Date().toString());
     interaction.isOutgoing = true;
     if (agent != null && agent.getFirstName() != null) {
@@ -115,13 +116,13 @@ public class ChatInteraction extends Interaction {
   }
 
 
-  public Visitor getVisitor() {
-    return _visitor;
+  public String getVisitorId() {
+    return _visitorId;
   }
 
 
-  public void setVisitor(Visitor visitor) {
-    this._visitor = visitor;
+  public void setVisitorId(String visitorId) {
+    this._visitorId = visitorId;
   }
 
 
