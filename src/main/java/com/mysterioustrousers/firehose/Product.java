@@ -2,7 +2,14 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.HashMap;
+
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
 
 
 
@@ -33,6 +40,27 @@ public class Product extends FHObject {
     this.setName(null);
     this.setToken(null);
     this.setWebsiteURL(null);
+  }
+
+  public GsonRequest<String> emailForSnippetInstallationHelp(String toEmail, String personalMessage, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    String url = String.format("%s/products/%s/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), _token);
+
+    // TODO not tested
+    HashMap<String, String> headers = new HashMap<String, String>();
+    headers.put("Authorization", String.format("Token token=\"%s\"", agentAccessToken));
+
+    JSONObject jsonObject = new JSONObject();
+    JSONObject snippetEmail = new JSONObject();
+    try {
+      snippetEmail.put("to_email", toEmail);
+      snippetEmail.put("message", personalMessage);
+      jsonObject.put("snippet_email", snippetEmail);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<String>(Request.Method.POST, url,String.class, jsonObject, listener, errorListener);
+
   }
 
 
