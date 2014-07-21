@@ -8,22 +8,15 @@ import com.google.gson.annotations.SerializedName;
 
 import com.mysterioustrousers.firehose.Agent;
 import com.mysterioustrousers.firehose.FHObject;
-import com.mysterioustrousers.firehose.Visitor;
 
 
 
 public class ChatInteraction extends Interaction {
 
-  public enum ChatInteractionKind {
-    ChatInteractionKindChat,
-    ChatInteractionKindNavigation
-  }
 
 
   @SerializedName("visitor_id")
   private String _visitorId;
-
-
 
   @SerializedName("message_id")
   private String _messageId;
@@ -57,13 +50,14 @@ public class ChatInteraction extends Interaction {
 
 
 
-  public static ChatInteraction chatInteractionWithBody(String body, Agent agent, Visitor visitor) {
+  public static ChatInteraction chatInteractionWithBody(String body, Agent agent, String visitorId, ChatInteractionKind kind) {
     //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generatedUUID()));
     ChatInteraction interaction = new ChatInteraction();
     interaction.setId(FHObject.generatedUUID());
+    interaction.setKind(kind);
     interaction.agent = agent;
     interaction.body = body;
-    interaction.setVisitorId((String)visitor.getId());
+    interaction.setVisitorId(visitorId);
     interaction.setCreatedAt(new Date().toString());
     interaction.isOutgoing = true;
     if (agent != null && agent.getFirstName() != null) {

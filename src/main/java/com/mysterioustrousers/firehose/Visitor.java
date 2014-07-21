@@ -111,8 +111,8 @@ public class Visitor extends FHObject implements Parcelable {
 
 
 
-  public static GsonArrayRequest chatInteractions(Agent agent, Visitor visitor, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-    String url = String.format("%s/visitors/%s/chat_interactions", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), visitor.getId());
+  public static GsonArrayRequest chatInteractions(Agent agent, String visitorId, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+    String url = String.format("%s/visitors/%s/chat_interactions", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), visitorId);
 
     Map<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token=\"%s\"", agent.getAccessToken()));
@@ -124,7 +124,6 @@ public class Visitor extends FHObject implements Parcelable {
   // TODO since it's already a json object maybe it can use that to be parcelable, oh well just do this for now.
   //parcel part
   public static final Creator<Visitor> CREATOR = new Creator<Visitor>() {
-
     @Override
     public Visitor createFromParcel(Parcel source) {
       Visitor visitor = new Visitor();
