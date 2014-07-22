@@ -43,9 +43,10 @@ public class Product extends FHObject {
   }
 
   public GsonRequest<String> emailForSnippetInstallationHelp(String toEmail, String personalMessage, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-    String url = String.format("%s/products/%s/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), _token);
+    double productId = Double.parseDouble(getId().toString());
+    int pid = (int) productId;
+    String url = String.format("%s/products/%s/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
 
-    // TODO not tested
     HashMap<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token=\"%s\"", agentAccessToken));
 
@@ -59,7 +60,7 @@ public class Product extends FHObject {
       errorListener.onErrorResponse(new ParseError(e));
     }
 
-    return new GsonRequest<String>(Request.Method.POST, url,String.class, jsonObject, listener, errorListener);
+    return new GsonRequest<String>(Request.Method.POST, url,String.class, headers, jsonObject, listener, errorListener);
 
   }
 
