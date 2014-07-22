@@ -2,6 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.Date;
 import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
@@ -14,7 +15,7 @@ public abstract class FHObject {
   private Object _id;
 
   @SerializedName("created_at")
-  private String _createdAt; // TODO: Make this a Calendar object rather than a String
+  private Date _createdAt; // TODO: maybe make a calendar, but gson seems to only work with Date
 
 
 
@@ -58,12 +59,12 @@ public abstract class FHObject {
   }
 
 
-  public String getCreatedAt() {
+  public Date getCreatedAt() {
     return _createdAt;
   }
 
 
-  public void setCreatedAt(String createdAt) {
+  public void setCreatedAt(Date createdAt) {
     _createdAt = createdAt;
   }
 

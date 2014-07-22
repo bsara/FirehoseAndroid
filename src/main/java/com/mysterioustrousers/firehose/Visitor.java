@@ -4,6 +4,7 @@ package com.mysterioustrousers.firehose;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class Visitor extends FHObject implements Parcelable {
   private String _mostRecentChat;
 
   @SerializedName("most_recent_chat_received_at")
-  private String _mostRecentChatReceivedAt;
+  private Date _mostRecentChatReceivedAt;
 
   @SerializedName("needs_response")
   private Boolean _needsResponse;
@@ -81,7 +82,7 @@ public class Visitor extends FHObject implements Parcelable {
   private int _unreadCount;
 
   @SerializedName("visited_current_url_at")
-  private String _visitedCurrentUrlAt;
+  private Date _visitedCurrentUrlAt;
 
 
 
@@ -357,12 +358,12 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public String getMostRecentChatReceivedAt() {
+  public Date getMostRecentChatReceivedAt() {
     return _mostRecentChatReceivedAt;
   }
 
 
-  public void setMostRecentChatReceivedAt(String mostRecentChatReceivedAt) {
+  public void setMostRecentChatReceivedAt(Date mostRecentChatReceivedAt) {
     _mostRecentChatReceivedAt = mostRecentChatReceivedAt;
   }
 
@@ -417,12 +418,12 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  public String getVisitedCurrentUrlAt() {
+  public Date getVisitedCurrentUrlAt() {
     return _visitedCurrentUrlAt;
   }
 
 
-  public void setVisitedCurrentUrlAt(String visitedCurrentUrlAt) {
+  public void setVisitedCurrentUrlAt(Date visitedCurrentUrlAt) {
     _visitedCurrentUrlAt = visitedCurrentUrlAt;
   }
 
