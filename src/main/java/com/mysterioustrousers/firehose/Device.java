@@ -17,8 +17,9 @@ import org.json.JSONObject;
 
 public class Device extends FHObject {
 
+
   @SerializedName("device_identifier")
-  private String _id;
+  private String _deviceIdentifer;
 
   @SerializedName("token")
   private String _token;
@@ -103,16 +104,15 @@ public class Device extends FHObject {
   // region Getters & Setters
 
 
-  @Override
-  public Object getId() {
-    return _id;
+  public String getDeviceIdentifer() {
+    return _deviceIdentifer;
   }
 
 
-  @Override
-  public void setId(Object id) {
-    _id = id.toString();
+  public void setDeviceIdentifer(String _deviceIdentifer) {
+    this._deviceIdentifer = _deviceIdentifer;
   }
+
 
 
   public String getToken() {
