@@ -123,6 +123,22 @@ public class Agent extends FHObject {
   }
 
 
+  public static GsonRequest<Agent> create(String accessToken, Listener<Agent> listener, ErrorListener errorListener) {
+    String url = String.format("%s/agents", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+
+    JSONObject jsonObject = new JSONObject();
+    JSONObject agent = new JSONObject();
+    try {
+      agent.put("access_token", accessToken);
+      jsonObject.put("agent", agent);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, jsonObject, listener, errorListener);
+  }
+
+
   public String getShortName() {
     String lastInitial = (!this.getLastName().isEmpty()) ? String.format(" %s.", this.getLastName().substring(0, 1)) : StringUtils.EMPTY;
     return String.format("%s %s", this.getFirstName(), lastInitial);

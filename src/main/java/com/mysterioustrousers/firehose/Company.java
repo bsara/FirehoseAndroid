@@ -9,9 +9,10 @@ import java.util.List;
 
 import com.android.volley.Response;
 import com.google.gson.annotations.SerializedName;
-import com.mysterioustrousers.lang.StringUtils;
 
 import org.json.JSONArray;
+
+import com.mysterioustrousers.lang.StringUtils;
 
 
 
