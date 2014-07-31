@@ -21,7 +21,7 @@ public class Device extends FHObject {
   @SerializedName("device_identifier")
   private String _deviceIdentifer;
 
-  @SerializedName("token")
+  @SerializedName("_token")
   private String _token;
 
   @SerializedName("environment")
@@ -75,12 +75,12 @@ public class Device extends FHObject {
     String ipAddress = "0.0.0.0"; // why is this needed?
 
     Map<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", agent.getAccessToken()));
+    headers.put("Authorization", String.format("Token _token=\"%s\"", agent.getAccessToken()));
 
     JSONObject device = new JSONObject();
     JSONObject jsonObject = new JSONObject();
     try {
-      jsonObject.put("token", token);
+      jsonObject.put("_token", token);
       jsonObject.put("environment", environment);
       jsonObject.put("name", model);
       jsonObject.put("model", model);

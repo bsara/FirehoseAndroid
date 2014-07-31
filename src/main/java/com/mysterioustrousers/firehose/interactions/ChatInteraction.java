@@ -55,11 +55,11 @@ public class ChatInteraction extends Interaction {
     ChatInteraction interaction = new ChatInteraction();
     interaction.setId(FHObject.generatedUUID());
     interaction.setKind(kind);
-    interaction.agent = agent;
-    interaction.body = body;
+    interaction.setAgent(agent);
+    interaction.setBody(body);
     interaction.setVisitorId(visitorId);
     interaction.setCreatedAt(new Date());
-    interaction.isOutgoing = true;
+    interaction.setOutgoing(true);
     if (agent != null && agent.getFirstName() != null) {
       String firstName = agent.getFirstName();
       interaction.setSenderDisplayName(!firstName.isEmpty() ? agent.getFirstName() : "Unknown");
@@ -178,6 +178,7 @@ public class ChatInteraction extends Interaction {
   public void setSenderDisplayName(String senderDisplayName) {
     this._senderDisplayName = senderDisplayName;
   }
+
 
   // endregion
 }

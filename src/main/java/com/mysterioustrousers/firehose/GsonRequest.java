@@ -22,8 +22,8 @@ import org.json.JSONObject;
 
 
 /**
- * A request for retrieving a {@link JSONObject} response body at a given URL, allowing for an
- * optional {@link JSONObject} to be passed in as part of the request body.
+ * A request for retrieving a {@link JSONObject} response _body at a given URL, allowing for an
+ * optional {@link JSONObject} to be passed in as part of the request _body.
  */
 public class GsonRequest<T> extends JsonRequest<T> {
 
@@ -86,7 +86,7 @@ public class GsonRequest<T> extends JsonRequest<T> {
         {
         [self sendEvent:FHSChatSocketEventAuthorize
         payload:@{
-@"product_tokens"     : @[ self.product.token ],
+@"product_tokens"     : @[ self.product._token ],
 @"agent_access_token" : [FHAgent loggedInAgent].accessToken,
 @"agent_id"           : [FHAgent loggedInAgent].identifier
         }];

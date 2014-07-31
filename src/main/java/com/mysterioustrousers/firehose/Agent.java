@@ -124,7 +124,7 @@ public class Agent extends FHObject {
       agent.put("password", password);
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
       agent.put("last_request_at", sdf.format(new Date()));
-      jsonObject.put("agent", agent);
+      jsonObject.put("_agent", agent);
     } catch (Exception e) {
       errorListener.onErrorResponse(new ParseError(e));
     }
@@ -140,7 +140,7 @@ public class Agent extends FHObject {
     JSONObject agent = new JSONObject();
     try {
       agent.put("access_token", accessToken);
-      jsonObject.put("agent", agent);
+      jsonObject.put("_agent", agent);
     } catch (Exception e) {
       errorListener.onErrorResponse(new ParseError(e));
     }
@@ -155,7 +155,7 @@ public class Agent extends FHObject {
     String url = String.format("%s/agents/%d", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), agentId);
 
     HashMap<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", getAccessToken()));
+    headers.put("Authorization", String.format("Token _token=\"%s\"", getAccessToken()));
 
 
     Gson gson = new Gson();
@@ -173,7 +173,7 @@ public class Agent extends FHObject {
           agent.put("password", getPassword());
         }
       }
-      jsonObject.put("agent", agent);
+      jsonObject.put("_agent", agent);
     } catch (Exception e) {
       errorListener.onErrorResponse(new ParseError(e));
     }

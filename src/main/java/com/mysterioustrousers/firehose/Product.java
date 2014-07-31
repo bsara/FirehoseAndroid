@@ -24,7 +24,7 @@ public class Product extends FHObject {
   @SerializedName("name")
   private String _name;
 
-  @SerializedName("token")
+  @SerializedName("_token")
   private String _token;
 
   @SerializedName("website")
@@ -48,7 +48,7 @@ public class Product extends FHObject {
     String url = String.format("%s/products/%s/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
 
     HashMap<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", agentAccessToken));
+    headers.put("Authorization", String.format("Token _token=\"%s\"", agentAccessToken));
 
     JSONObject jsonObject = new JSONObject();
     JSONObject snippetEmail = new JSONObject();
