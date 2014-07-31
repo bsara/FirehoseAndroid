@@ -116,7 +116,7 @@ public class Visitor extends FHObject implements Parcelable {
     String url = String.format("%s/visitors/%s/chat_interactions", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), visitorId);
 
     Map<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token _token=\"%s\"", agent.getAccessToken()));
+    headers.put("Authorization", String.format("Token token=\"%s\"", agent.getAccessToken()));
 
     return new GsonArrayRequest(url, headers, listener, errorListener);
   }

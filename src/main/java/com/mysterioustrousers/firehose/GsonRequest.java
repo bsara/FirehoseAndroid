@@ -81,14 +81,3 @@ public class GsonRequest<T> extends JsonRequest<T> {
     }
   }
 }
-/*
-- (void)authorize
-        {
-        [self sendEvent:FHSChatSocketEventAuthorize
-        payload:@{
-@"product_tokens"     : @[ self.product._token ],
-@"agent_access_token" : [FHAgent loggedInAgent].accessToken,
-@"agent_id"           : [FHAgent loggedInAgent].identifier
-        }];
-        }
-        */

@@ -86,7 +86,7 @@ public class Company extends FHObject {
   public static GsonArrayRequest fetchOnlineVisitors(String accessToken, final Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
     String url = String.format("%s/online_visitors", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.CHAT_SERVER));
     HashMap<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token _token = %s", accessToken));
+    headers.put("Authorization", String.format("Token token = %s", accessToken));
 
     return new GsonArrayRequest(url, headers, listener, errorListener);
   }
