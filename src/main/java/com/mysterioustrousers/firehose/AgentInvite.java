@@ -11,7 +11,7 @@ public class AgentInvite extends FHObject {
   @SerializedName("email")
   private String _email;
 
-  @SerializedName("_token")
+  @SerializedName("token")
   private String _token;
 
 

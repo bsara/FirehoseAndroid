@@ -33,7 +33,7 @@ public class Company extends FHObject {
   @SerializedName("title")
   private String _title;
 
-  @SerializedName("_token")
+  @SerializedName("token")
   private String _token;
 
   @SerializedName("unresolved_count")

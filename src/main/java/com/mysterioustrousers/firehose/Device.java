@@ -21,7 +21,7 @@ public class Device extends FHObject {
   @SerializedName("device_identifier")
   private String _deviceIdentifer;
 
-  @SerializedName("_token")
+  @SerializedName("token")
   private String _token;
 
   @SerializedName("environment")

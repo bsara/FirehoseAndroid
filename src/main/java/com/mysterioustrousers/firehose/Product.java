@@ -24,7 +24,7 @@ public class Product extends FHObject {
   @SerializedName("name")
   private String _name;
 
-  @SerializedName("_token")
+  @SerializedName("token")
   private String _token;
 
   @SerializedName("website")
