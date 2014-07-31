@@ -182,6 +182,19 @@ public class Agent extends FHObject {
   }
 
 
+  public static GsonRequest<String> requestPasswordReset(String email, Listener<String> listener, ErrorListener errorListener) {
+    String url = String.format("%s/request_reset_password", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+    JSONObject jsonObject = new JSONObject();
+    try {
+      jsonObject.put("email", email);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<String>(Request.Method.POST, url, String.class, jsonObject, listener, errorListener);
+  }
+
+
   public String getShortName() {
     String lastInitial = (!this.getLastName().isEmpty()) ? String.format(" %s.", this.getLastName().substring(0, 1)) : StringUtils.EMPTY;
     return String.format("%s %s", this.getFirstName(), lastInitial);
