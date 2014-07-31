@@ -169,7 +169,7 @@ public class Agent extends FHObject {
         agent.put("first_name", getFirstName());
         agent.put("last_name", getLastName());
         agent.put("email", getEmail());
-        if (getPassword() != null && getPassword().length() > 1) {
+        if (getPassword() != null) {
           agent.put("password", getPassword());
         }
       }
