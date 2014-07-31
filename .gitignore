@@ -2,19 +2,25 @@
 ### Project Ignores                              ###
 ### -------------------------------------------- ###
 
-.gradle/
+## Build Files/Folders
+[Bb]in/
+[Bb]uild/
+[Gg]en/
+[Oo]bj/
+[Oo]ut/
+[Pp]roduction/
+[Tt]arget/
 
-# Build Files
-build/
+*.ap_
+*.apk
 *.class
-*.jar
-*.war
 *.ear
+*.war
 
-# Mobile Tools for Java (J2ME)
+## Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+## Virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 
@@ -23,9 +29,18 @@ hs_err_pid*
 ### IDEs & Editors Ignores                       ###
 ### -------------------------------------------- ###
 
-## Android Studio
-/.idea/workspace.xml
-/local.properties
+## JetBeans IDEs
+.idea/
+.gradle/
+
+*.iml
+*.ipr
+*.iws
+*.swp
+local.properties
+
+## Eclipse
+.settings/
 
 ## Sublime Text
 /*.sublime*
