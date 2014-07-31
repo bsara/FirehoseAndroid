@@ -12,6 +12,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,12 @@ import org.json.JSONObject;
 
 
 public class Agent extends FHObject {
+
+  public enum UpdateType {
+    AGENT_INFO,
+    AGENT_SETTINGS
+  }
+
 
   private static transient Agent s_loggedInAgent = null;
 
@@ -56,6 +63,9 @@ public class Agent extends FHObject {
 
   @SerializedName("devices")
   private List<Device> _devices;  // TODO: Change from List to Set
+
+
+  private String password;
 
 
 
@@ -139,6 +149,39 @@ public class Agent extends FHObject {
   }
 
 
+  public GsonRequest<String> update(UpdateType updateType, Listener<String> listener, ErrorListener errorListener) {
+    double aid = Double.parseDouble(this.getId().toString());
+    int agentId = (int)aid;
+    String url = String.format("%s/agents/%d", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), agentId);
+
+    HashMap<String, String> headers = new HashMap<String, String>();
+    headers.put("Authorization", String.format("Token token=\"%s\"", getAccessToken()));
+
+
+    Gson gson = new Gson();
+    JSONObject jsonObject = new JSONObject();
+    JSONObject agent = new JSONObject();
+    try {
+      if (updateType.equals(UpdateType.AGENT_SETTINGS)) {
+        JSONObject agentSettings = new JSONObject(gson.toJson(getAgentSettings()));
+        agent.put("agent_settings_attributes", agentSettings);
+      } else if (updateType.equals(UpdateType.AGENT_INFO)) {
+        agent.put("first_name", getFirstName());
+        agent.put("last_name", getLastName());
+        agent.put("email", getEmail());
+        if (getPassword() != null && getPassword().length() > 1) {
+          agent.put("password", getPassword());
+        }
+      }
+      jsonObject.put("agent", agent);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<String>(Request.Method.PUT, url, String.class, headers, jsonObject, listener, errorListener);
+  }
+
+
   public String getShortName() {
     String lastInitial = (!this.getLastName().isEmpty()) ? String.format(" %s.", this.getLastName().substring(0, 1)) : StringUtils.EMPTY;
     return String.format("%s %s", this.getFirstName(), lastInitial);
@@ -147,6 +190,16 @@ public class Agent extends FHObject {
 
 
   // region Getters & Setters
+
+
+  public String getPassword() {
+    return password;
+  }
+
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
 
   public static Agent getLoggedInAgent() {
