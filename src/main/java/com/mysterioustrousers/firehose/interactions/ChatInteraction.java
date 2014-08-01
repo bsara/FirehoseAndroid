@@ -5,15 +5,12 @@ package com.mysterioustrousers.firehose.interactions;
 import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
-
 import com.mysterioustrousers.firehose.Agent;
 import com.mysterioustrousers.firehose.FHObject;
 
 
 
 public class ChatInteraction extends Interaction {
-
-
 
   @SerializedName("visitor_id")
   private String _visitorId;
@@ -76,6 +73,18 @@ public class ChatInteraction extends Interaction {
 
 
   // region Getter & Setters
+
+
+  public boolean isSenderAnAgent() {
+    return this.getAgent() != null;
+  }
+
+
+  public boolean isSenderCurrentAgent() {
+    return this.isSenderAnAgent()
+           && Agent.getLoggedInAgent() != null
+           && Agent.getLoggedInAgent().getId() == this.getAgent().getId();
+  }
 
 
   @Override
