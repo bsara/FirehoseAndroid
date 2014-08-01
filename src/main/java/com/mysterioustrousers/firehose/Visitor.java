@@ -213,7 +213,6 @@ public class Visitor extends FHObject implements Parcelable {
   // region Getters & Setters
 
 
-
   @Override
   public Object getId() {
     return _visitorId;

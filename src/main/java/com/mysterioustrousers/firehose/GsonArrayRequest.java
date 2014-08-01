@@ -19,8 +19,10 @@ public class GsonArrayRequest extends JsonArrayRequest {
 
   public GsonArrayRequest(String url, Map<String, String> headers, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
     super(url, listener, errorListener);
+
     _headers = headers;
   }
+
 
 
   @Override

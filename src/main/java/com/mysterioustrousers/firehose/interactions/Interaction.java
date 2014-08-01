@@ -5,6 +5,7 @@ package com.mysterioustrousers.firehose.interactions;
 import java.net.URL;
 import java.util.Date;
 
+import com.google.gson.annotations.SerializedName;
 import com.mysterioustrousers.firehose.Agent;
 import com.mysterioustrousers.firehose.Customer;
 import com.mysterioustrousers.firehose.FHObject;
@@ -14,18 +15,42 @@ import com.mysterioustrousers.firehose.accounts.CustomerAccount;
 
 public abstract class Interaction extends FHObject {
 
-  private Agent                _agent;
-  private Customer             _customer;
-  private CustomerAccount      _customerAccount;
-  private String               _token;
-  private String               _responseDraft;
-  private String               _subject;
-  private String               _body;
-  private URL                  _privateURL;
-  private Date                 _receivedAt;
+
+  @SerializedName("agent")
+  private Agent _agent;
+
+  @SerializedName("customer")
+  private Customer _customer;
+
+  @SerializedName("customer_account")
+  private CustomerAccount _customerAccount;
+
+  @SerializedName("token")
+  private String _token;
+
+  @SerializedName("response_draft")
+  private String _responseDraft;
+
+  @SerializedName("subject")
+  private String _subject;
+
+  @SerializedName("body")
+  private String _body;
+
+  @SerializedName("private_url")
+  private URL _privateURL;
+
+  @SerializedName("received_at")
+  private Date _receivedAt;
+
+  @SerializedName("happiness")
   private InteractionHappiness _happiness;
-  private boolean              _isResolved;
-  private boolean              _isOutgoing;
+
+  @SerializedName("resolved")
+  private boolean _isResolved;
+
+  @SerializedName("outgoing")
+  private boolean _isOutgoing;
 
   //private Set responseInteractions;
   //private Set notes;

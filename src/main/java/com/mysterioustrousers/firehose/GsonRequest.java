@@ -21,46 +21,34 @@ import org.json.JSONObject;
 
 
 
-/**
- * A request for retrieving a {@link JSONObject} response _body at a given URL, allowing for an
- * optional {@link JSONObject} to be passed in as part of the request _body.
- */
 public class GsonRequest<T> extends JsonRequest<T> {
 
-  private final Gson _gson = new Gson();
+  private final Gson     _gson;
   private final Class<T> _clazz;
-  private Map<String, String> _headers = null;
+
+  private Map<String, String> _headers;
 
 
 
-  /**
-   * Creates a new request.
-   *
-   * @param method
-   *     the HTTP method to use
-   * @param url
-   *     URL to fetch the JSON from
-   * @param jsonRequest
-   *     A {@link JSONObject} to post with the request. Null is allowed and
-   *     indicates no parameters will be posted along with request.
-   * @param listener
-   *     Listener to receive the JSON response
-   * @param errorListener
-   *     Error listener, or null to ignore errors.
-   */
-  public GsonRequest(int method, String url, Class<T> clazz, JSONObject jsonRequest, Listener<T> listener, ErrorListener errorListener) {
-    super(method, url, ((jsonRequest == null) ? null : jsonRequest.toString()), listener, errorListener);
+  // region Constructors
 
-    _clazz = clazz;
+
+  public GsonRequest(int httpMethod, String url, Class<T> clazz, JSONObject jsonRequest, Listener<T> listener, ErrorListener errorListener) {
+    this(httpMethod, url, clazz, null, jsonRequest, listener, errorListener);
   }
 
 
-  public GsonRequest(int method, String url, Class<T> clazz, Map<String, String> headers, JSONObject jsonRequest, Listener<T> listener, ErrorListener errorListener) {
-    super(method, url, ((jsonRequest == null) ? null : jsonRequest.toString()), listener, errorListener);
+  public GsonRequest(int httpMethod, String url, Class<T> clazz, Map<String, String> headers, JSONObject jsonRequest, Listener<T> listener, ErrorListener errorListener) {
+    super(httpMethod, url, ((jsonRequest == null) ? null : jsonRequest.toString()), listener, errorListener);
 
+    _gson = new Gson();
     _clazz = clazz;
     _headers = headers;
   }
+
+
+  // endregion
+
 
 
   @Override
