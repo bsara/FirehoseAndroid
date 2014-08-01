@@ -18,6 +18,7 @@ public class AgentInvite extends FHObject {
 
   public AgentInvite() {
     super();
+
     this.setEmail(null);
     this.setToken(null);
   }

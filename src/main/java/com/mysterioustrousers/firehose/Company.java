@@ -12,8 +12,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONArray;
 
-import com.mysterioustrousers.lang.StringUtils;
-
 
 
 public class Company extends FHObject {
@@ -237,39 +235,4 @@ public class Company extends FHObject {
 
 
   // endregion
-
-
-
-  public enum CompanyType {
-    DESK,
-    CHAT;
-
-
-    public static CompanyType fromString(String companyTypeStr) {
-      if (StringUtils.isNullOrWhiteSpace(companyTypeStr)) {
-        return null;
-      }
-
-      String companyTypeStrTemp = companyTypeStr.trim().toLowerCase();
-      if (companyTypeStrTemp.equals(CompanyType.DESK.toString())) {
-        return CompanyType.DESK;
-      }
-      if (companyTypeStrTemp.equals(CompanyType.CHAT.toString())) {
-        return CompanyType.CHAT;
-      }
-      return null;
-    }
-
-
-    @Override
-    public String toString() {
-      switch (this) {
-        case DESK:
-          return "desk";
-        case CHAT:
-          return "chat";
-      }
-      return null;
-    }
-  }
 }
