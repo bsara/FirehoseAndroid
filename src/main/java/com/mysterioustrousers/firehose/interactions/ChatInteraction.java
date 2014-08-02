@@ -35,7 +35,7 @@ public class ChatInteraction extends Interaction {
 
   private String _senderDisplayName;
 
-  private ChatInteractionKind _kind;
+  private ChatInteractionType _type;
 
 
 
@@ -47,15 +47,16 @@ public class ChatInteraction extends Interaction {
 
 
 
-  public static ChatInteraction chatInteractionWithBody(String body, Agent agent, String visitorId, ChatInteractionKind kind) {
+  public static ChatInteraction getChatInteraction(String visitorId, Agent agent, String messageBody, ChatInteractionType type) {
     //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generatedUUID()));
     ChatInteraction interaction = new ChatInteraction();
     interaction.setId(FHObject.generatedUUID());
-    interaction.setKind(kind);
+    interaction.setType(type);
     interaction.setAgent(agent);
-    interaction.setBody(body);
+    interaction.setBody(messageBody);
     interaction.setVisitorId(visitorId);
     interaction.setCreatedAt(new Date());
+    interaction.setReceivedAt(new Date());
     interaction.setOutgoing(true);
     if (agent != null && agent.getFirstName() != null) {
       String firstName = agent.getFirstName();
@@ -83,13 +84,13 @@ public class ChatInteraction extends Interaction {
   public boolean isSenderCurrentAgent() {
     return this.isSenderAnAgent()
            && Agent.getLoggedInAgent() != null
-           && Agent.getLoggedInAgent().getId() == this.getAgent().getId();
+           && Agent.getLoggedInAgent().getId().equals(this.getAgent().getId());
   }
 
 
   @Override
   public void setId(Object messageId) {
-    this._messageId = messageId.toString();
+    _messageId = messageId.toString();
   }
 
 
@@ -104,18 +105,18 @@ public class ChatInteraction extends Interaction {
   }
 
 
-  public void setMessageId(String _messageId) {
-    this._messageId = _messageId;
+  public void setMessageId(String messageId) {
+    _messageId = messageId;
   }
 
 
-  public ChatInteractionKind getKind() {
-    return _kind;
+  public ChatInteractionType getType() {
+    return _type;
   }
 
 
-  public void setKind(ChatInteractionKind kind) {
-    this._kind = kind;
+  public void setType(ChatInteractionType type) {
+    _type = type;
   }
 
 
@@ -125,7 +126,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setVisitorId(String visitorId) {
-    this._visitorId = visitorId;
+    _visitorId = visitorId;
   }
 
 
@@ -135,7 +136,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setProductToken(String productToken) {
-    this._productToken = productToken;
+    _productToken = productToken;
   }
 
 
@@ -145,7 +146,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setDeliveredAt(String deliveredAt) {
-    this._deliveredAt = deliveredAt;
+    _deliveredAt = deliveredAt;
   }
 
 
@@ -155,7 +156,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setReadAt(String readAt) {
-    this._readAt = readAt;
+    _readAt = readAt;
   }
 
 
@@ -165,7 +166,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setEditedAt(String editedAt) {
-    this._editedAt = editedAt;
+    _editedAt = editedAt;
   }
 
 
@@ -175,7 +176,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setFailedAt(String failedAt) {
-    this._failedAt = failedAt;
+    _failedAt = failedAt;
   }
 
 
@@ -185,7 +186,7 @@ public class ChatInteraction extends Interaction {
 
 
   public void setSenderDisplayName(String senderDisplayName) {
-    this._senderDisplayName = senderDisplayName;
+    _senderDisplayName = senderDisplayName;
   }
 
 
