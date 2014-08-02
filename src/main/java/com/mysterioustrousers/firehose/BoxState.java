@@ -2,7 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
-import com.mysterioustrousers.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 
@@ -14,7 +14,7 @@ public enum BoxState {
 
 
   public static BoxState fromString(String boxStateStr) {
-    if (StringUtils.isNullOrWhiteSpace(boxStateStr)) {
+    if (StringUtils.isBlank(boxStateStr)) {
       return null;
     }
 

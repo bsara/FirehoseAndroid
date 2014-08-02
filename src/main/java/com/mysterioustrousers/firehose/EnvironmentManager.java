@@ -2,9 +2,8 @@ package com.mysterioustrousers.firehose;
 
 
 
-import com.mysterioustrousers.lang.StringUtils;
-
 import org.apache.commons.collections4.map.MultiKeyMap;
+import org.apache.commons.lang3.StringUtils;
 
 
 
@@ -55,7 +54,7 @@ public class EnvironmentManager {
 
     if (isRemoteInstance) {
       String remoteDevAndTestDomain = System.getProperty(EnvironmentManager.REMOTE_DEV_AND_TEST_DOMAIN_PROPERTY_NAME, null);
-      if (!StringUtils.isNullOrWhiteSpace(remoteDevAndTestDomain)) {
+      if (!StringUtils.isBlank(remoteDevAndTestDomain)) {
         devAndTestDomain = remoteDevAndTestDomain;
       }
     }

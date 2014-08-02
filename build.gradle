@@ -36,6 +36,7 @@ dependencies {
   compile 'org.apache.commons:commons-lang3:3.+'
   compile 'org.apache.commons:commons-collections4:4.+'
   compile 'com.google.code.gson:gson:2.2.4@jar'
+  compile 'org.ocpsoft.prettytime:prettytime:3.0.2.Final@jar'
   compile project(':Volley')
   compile project(':mt-android-commons')
   compile fileTree(dir: 'libs', include: ['*.jar'])

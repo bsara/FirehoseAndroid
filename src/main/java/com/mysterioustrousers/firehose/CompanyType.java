@@ -2,7 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
-import com.mysterioustrousers.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 
@@ -13,7 +13,7 @@ public enum CompanyType {
 
 
   public static CompanyType fromString(String companyTypeStr) {
-    if (StringUtils.isNullOrWhiteSpace(companyTypeStr)) {
+    if (StringUtils.isBlank(companyTypeStr)) {
       return null;
     }
 
