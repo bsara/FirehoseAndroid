@@ -65,6 +65,28 @@ public class Product extends FHObject {
   }
 
 
+  public GsonRequest<String> update(String websiteURL, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    double productId = Double.parseDouble(getId().toString());
+    int pid = (int) productId;
+    String url = String.format("%s/products/%s", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
+
+    HashMap<String, String> headers = new HashMap<String, String>();
+    headers.put("Authorization", String.format("Token token=\"%s\"", agentAccessToken));
+
+    JSONObject jsonObject = new JSONObject();
+    JSONObject product = new JSONObject();
+    try {
+      product.put("website", websiteURL); // website passed as a parameter so it won't be set on server update failure.
+      jsonObject.put("product", product);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<String>(Request.Method.PUT, url,String.class, headers, jsonObject, listener, errorListener);
+
+  }
+
+
 
   // region Getters & Setters
 
