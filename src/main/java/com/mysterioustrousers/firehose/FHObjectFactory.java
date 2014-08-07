@@ -7,7 +7,7 @@ import org.apache.commons.collections4.map.MultiKeyMap;
 
 
 // TODO: Refactor this Factory to store cache in a database instead of storing all cached objects in memory!!!
-public class FHObjectFactory {
+public final class FHObjectFactory {
 
   // region Singleton Implementation
 

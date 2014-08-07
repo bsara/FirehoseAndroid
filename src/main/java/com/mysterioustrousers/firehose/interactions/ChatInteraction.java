@@ -181,7 +181,7 @@ public class ChatInteraction extends Interaction {
 
 
   public String getSenderDisplayName() {
-    return _senderDisplayName;
+    return this.isSenderAnAgent() ? this.getAgent().getDisplayName() : _senderDisplayName;
   }
 
 
