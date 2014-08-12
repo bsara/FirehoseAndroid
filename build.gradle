@@ -10,11 +10,14 @@ buildscript {
   }
 }
 
+
 apply plugin: 'com.android.library'
+
 
 android {
   compileSdkVersion 20
   buildToolsVersion '20.0.0'
+
   defaultConfig {
     applicationId 'com.mysterioustrousers.firehose'
     minSdkVersion 15
@@ -22,22 +25,25 @@ android {
     versionCode 0
     versionName '0.0.0'
   }
+
   buildTypes {
     release {
       runProguard false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
   productFlavors {
   }
 }
 
+
 dependencies {
-  compile 'org.apache.commons:commons-lang3:3.+'
-  compile 'org.apache.commons:commons-collections4:4.+'
+  compile 'org.apache.commons:commons-lang3:3.3.2@jar'
+  compile 'org.apache.commons:commons-collections4:4.0@jar'
   compile 'com.google.code.gson:gson:2.2.4@jar'
   compile 'org.ocpsoft.prettytime:prettytime:3.0.2.Final@jar'
-  compile project(':Volley')
+  compile 'com.mcxiaoke.volley:library:1.0.6'
   compile project(':mt-android-commons')
   compile fileTree(dir: 'libs', include: ['*.jar'])
 }
