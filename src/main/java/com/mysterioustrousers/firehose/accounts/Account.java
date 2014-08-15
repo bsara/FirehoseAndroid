@@ -13,8 +13,8 @@ import com.mysterioustrousers.net.GravatarFactory;
 
 public abstract class Account extends FHObject {
 
-  private String   _username;
-  private URL      _avatarURL;
+  private String _username;
+  private URL    _avatarURL;
 
 
 

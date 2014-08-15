@@ -42,9 +42,11 @@ public class Product extends FHObject {
     this.setWebsiteURL(null);
   }
 
+
+
   public GsonRequest<String> emailForSnippetInstallationHelp(String toEmail, String personalMessage, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
     double productId = Double.parseDouble(getId().toString());
-    int pid = (int) productId;
+    int pid = (int)productId;
     String url = String.format("%s/products/%s/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
 
     HashMap<String, String> headers = new HashMap<String, String>();
@@ -60,14 +62,13 @@ public class Product extends FHObject {
       errorListener.onErrorResponse(new ParseError(e));
     }
 
-    return new GsonRequest<String>(Request.Method.POST, url,String.class, headers, jsonObject, listener, errorListener);
-
+    return new GsonRequest<String>(Request.Method.POST, url, String.class, headers, jsonObject, listener, errorListener);
   }
 
 
   public GsonRequest<String> update(String websiteURL, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
     double productId = Double.parseDouble(getId().toString());
-    int pid = (int) productId;
+    int pid = (int)productId;
     String url = String.format("%s/products/%s", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
 
     HashMap<String, String> headers = new HashMap<String, String>();
@@ -82,8 +83,7 @@ public class Product extends FHObject {
       errorListener.onErrorResponse(new ParseError(e));
     }
 
-    return new GsonRequest<String>(Request.Method.PUT, url,String.class, headers, jsonObject, listener, errorListener);
-
+    return new GsonRequest<String>(Request.Method.PUT, url, String.class, headers, jsonObject, listener, errorListener);
   }
 
 
