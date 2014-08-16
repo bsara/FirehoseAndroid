@@ -38,7 +38,7 @@ public class AgentSettings extends FHObject {
 
     this.setDNDStartHourUTC(-1);
     this.setDNDEndHourUTC(-1);
-    this.setIsDNDManuallyTurnedOn(false);
+    this.setDNDManuallyTurnedOn(false);
     this.setSecondsFromUTC(-1);
     this.setTimeZoneName(null);
     this.setDigestDays(new ArrayList<Integer>());
@@ -74,7 +74,7 @@ public class AgentSettings extends FHObject {
   }
 
 
-  public void setIsDNDManuallyTurnedOn(boolean isDNDManuallyTurnedOn) {
+  public void setDNDManuallyTurnedOn(boolean isDNDManuallyTurnedOn) {
     _isDNDManuallyTurnedOn = isDNDManuallyTurnedOn;
   }
 

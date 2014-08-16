@@ -65,7 +65,7 @@ public class Agent extends FHObject {
   private List<Device> _devices;  // TODO: Change from List to Set
 
 
-  private String password;
+  private Company _currentCompany;
 
 
 
@@ -83,6 +83,12 @@ public class Agent extends FHObject {
     this.setAgentSettings(new AgentSettings());
     this.setCompanies(new ArrayList<Company>());
     this.setDevices(new ArrayList<Device>());
+
+    try {
+      this.setCurrentCompany(null);
+    } catch (CompanyNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
 
@@ -169,9 +175,11 @@ public class Agent extends FHObject {
         agent.put("first_name", getFirstName());
         agent.put("last_name", getLastName());
         agent.put("email", getEmail());
+        /*
         if (getPassword() != null) {
           agent.put("password", getPassword());
         }
+        */
       }
       jsonObject.put("agent", agent);
     } catch (Exception e) {
@@ -203,16 +211,6 @@ public class Agent extends FHObject {
 
 
   // region Getters & Setters
-
-
-  public String getPassword() {
-    return password;
-  }
-
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
 
 
   public static Agent getLoggedInAgent() {
@@ -332,6 +330,55 @@ public class Agent extends FHObject {
 
   public void setDevices(List<Device> devices) {
     _devices = devices;
+  }
+
+
+  public Company getCurrentCompany() {
+    return _currentCompany;
+  }
+
+
+  public void setCurrentCompanyAsFirstInList() {
+    if (!_companies.isEmpty()) {
+      _currentCompany = _companies.get(0);
+    }
+  }
+
+
+  public void setCurrentCompany(Object companyId) throws CompanyNotFoundException {
+    Company company = new Company();
+    company.setId(companyId);
+
+    this.setCurrentCompany(company);
+  }
+
+
+  public void setCurrentCompany(Company company) throws CompanyNotFoundException {
+    if (company == null || company.getId() == null) {
+      _currentCompany = null;
+      return;
+    }
+
+    if (this.getCurrentCompany().equals(company)) {
+      return;
+    }
+
+    for (Company agentCompany : _companies) {
+      if (agentCompany == _currentCompany) {
+        continue;
+      }
+      if (agentCompany.equals(company)) {
+        _currentCompany = company;
+        return;
+      }
+    }
+
+    throw new CompanyNotFoundException(company);
+  }
+
+
+  public void setNewPassword(String password) {
+    // TODO: DO NOT store password! this needs to be persisted to the API immediately and then discarded from memory!!!
   }
 
 

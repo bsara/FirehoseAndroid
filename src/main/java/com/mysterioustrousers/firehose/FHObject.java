@@ -20,16 +20,9 @@ public abstract class FHObject {
 
 
   protected FHObject() {
-    this.setId(-1);
+    this.setId(null);
     this.setCreatedAt(null);
   }
-
-
-  /*
-  public static FHObject createWithId(String id) {
-    // Use FHObjectFactory instead of this method!!!!
-  }
-  */
 
 
 
@@ -38,12 +31,6 @@ public abstract class FHObject {
     return uuid.toString();
   }
 
-
-  @Override
-  public boolean equals(Object obj) {
-    return (this == obj)
-           || (this.getClass() == obj.getClass() && this.getId().equals(((FHObject)obj).getId()));
-  }
 
 
   // region: Getters & Setters
@@ -70,4 +57,25 @@ public abstract class FHObject {
 
 
   // endregion
+
+
+
+  @Override
+  public int hashCode() {
+    return this.getId().hashCode();
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    return obj != null
+           && obj instanceof FHObject
+           && (this == obj || this.getId().equals(((FHObject)obj).getId()));
+  }
+
+
+  @Override
+  public String toString() {
+    return String.format("%s (%s)", this.getClass().getSimpleName(), this.getId().toString());
+  }
 }
