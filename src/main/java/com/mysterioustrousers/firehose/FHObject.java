@@ -76,6 +76,6 @@ public abstract class FHObject {
 
   @Override
   public String toString() {
-    return String.format("%s (%s)", this.getClass().getSimpleName(), this.getId().toString());
+    return String.format("%s (%s)", this.getClass().getSimpleName(), ((this.getId() == null) ? null : this.getId().toString()));
   }
 }

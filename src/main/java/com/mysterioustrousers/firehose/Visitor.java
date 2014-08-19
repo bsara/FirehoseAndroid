@@ -221,7 +221,7 @@ public class Visitor extends FHObject implements Parcelable {
 
   @Override
   public void setId(Object id) {
-    _visitorId = id.toString();
+    _visitorId = (id != null) ? id.toString() : null;
   }
 
 

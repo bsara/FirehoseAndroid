@@ -103,8 +103,13 @@ public class EnvironmentManager {
 
     _domains.put(FHApplication.CHAT_BROWSER, Environment.DEV, devAndTestDomain);
     _domains.put(FHApplication.CHAT_BROWSER, Environment.TEST, devAndTestDomain);
-    _domains.put(FHApplication.CHAT_BROWSER, Environment.BETA, "???");
-    _domains.put(FHApplication.CHAT_BROWSER, Environment.PRODUCTION, "???");
+    _domains.put(FHApplication.CHAT_BROWSER, Environment.BETA, "beta.firehoseapp.com");
+    _domains.put(FHApplication.CHAT_BROWSER, Environment.PRODUCTION, "app.firehosechat.com");
+
+    _domains.put(FHApplication.CHAT_BILLING, Environment.DEV, devAndTestDomain);
+    _domains.put(FHApplication.CHAT_BILLING, Environment.TEST, devAndTestDomain);
+    _domains.put(FHApplication.CHAT_BILLING, Environment.BETA, "beta_billing.firehosechat.com");
+    _domains.put(FHApplication.CHAT_BILLING, Environment.PRODUCTION, "billing.firehosechat.com");
 
     _domains.put(FHApplication.CHAT_MARKETING, Environment.DEV, devAndTestDomain);
     _domains.put(FHApplication.CHAT_MARKETING, Environment.TEST, devAndTestDomain);

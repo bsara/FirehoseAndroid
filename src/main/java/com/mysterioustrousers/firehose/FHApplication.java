@@ -12,6 +12,7 @@ public enum FHApplication {
   TWEET_LONGER,
   KB,
   CHAT_BROWSER,
+  CHAT_BILLING,
   CHAT_MARKETING,
   CHAT_SERVER
 }

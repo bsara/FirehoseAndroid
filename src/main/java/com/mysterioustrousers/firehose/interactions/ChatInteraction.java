@@ -90,7 +90,7 @@ public class ChatInteraction extends Interaction {
 
   @Override
   public void setId(Object messageId) {
-    _messageId = messageId.toString();
+    _messageId = (messageId != null) ? messageId.toString() : null;
   }
 
 
