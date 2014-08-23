@@ -11,22 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class AgentSettings extends FHObject {
 
-  // TODO: Change DND stuff to use DNDSettings object
-
-  @SerializedName("dnd_start_hour_utc")
-  private int _dndStartHourUTC;
-
-  @SerializedName("dnd_end_hour_utc")
-  private int _dndEndHourUTC;
-
-  @SerializedName("dnd_is_manually_turned_on")
-  private boolean _isDNDManuallyTurnedOn;
-
-  @SerializedName("seconds_from_utc")
-  private int _secondsFromUTC;
-
-  @SerializedName("time_zone_name")
-  private String _timeZoneName;
+  private AvailabilitySettings _availabilitySettings;
 
   @SerializedName("digest_days")
   private List<Integer> _digestDays; // TODO: private List<DayOfWeek> _digestDays;
@@ -36,11 +21,7 @@ public class AgentSettings extends FHObject {
   public AgentSettings() {
     super();
 
-    this.setDNDStartHourUTC(-1);
-    this.setDNDEndHourUTC(-1);
-    this.setDNDManuallyTurnedOn(false);
-    this.setSecondsFromUTC(-1);
-    this.setTimeZoneName(null);
+    this.setAvailabilitySettings(new AvailabilitySettings());
     this.setDigestDays(new ArrayList<Integer>());
   }
 
@@ -49,53 +30,13 @@ public class AgentSettings extends FHObject {
   // region Getters & Setters
 
 
-  public int getDNDStartHourUTC() {
-    return _dndStartHourUTC;
+  public AvailabilitySettings getAvailabilitySettings() {
+    return _availabilitySettings;
   }
 
 
-  public void setDNDStartHourUTC(int dndStartHourUTC) {
-    _dndStartHourUTC = dndStartHourUTC;
-  }
-
-
-  public int getDNDEndHourUTC() {
-    return _dndEndHourUTC;
-  }
-
-
-  public void setDNDEndHourUTC(int dndEndHourUTC) {
-    _dndEndHourUTC = dndEndHourUTC;
-  }
-
-
-  public boolean isDNDManuallyTurnedOn() {
-    return _isDNDManuallyTurnedOn;
-  }
-
-
-  public void setDNDManuallyTurnedOn(boolean isDNDManuallyTurnedOn) {
-    _isDNDManuallyTurnedOn = isDNDManuallyTurnedOn;
-  }
-
-
-  public int getSecondsFromUTC() {
-    return _secondsFromUTC;
-  }
-
-
-  public void setSecondsFromUTC(int secondsFromUTC) {
-    _secondsFromUTC = secondsFromUTC;
-  }
-
-
-  public String getTimeZoneName() {
-    return _timeZoneName;
-  }
-
-
-  public void setTimeZoneName(String timeZoneName) {
-    _timeZoneName = timeZoneName;
+  public void setAvailabilitySettings(AvailabilitySettings settings) {
+    _availabilitySettings = settings;
   }
 
 
