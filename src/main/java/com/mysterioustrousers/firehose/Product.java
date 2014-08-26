@@ -2,6 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.Comparator;
 import java.util.HashMap;
 
 import com.android.volley.ParseError;
@@ -88,7 +89,7 @@ public class Product extends FHObject {
 
 
 
-  // region Getters & Setters
+  // region Getters/Setters
 
 
   public String getKBCustomDomain() {
@@ -138,6 +139,45 @@ public class Product extends FHObject {
 
   public void setWebsiteURL(String websiteURL) {
     _websiteURL = websiteURL;
+  }
+
+
+  // endregion
+
+
+
+  // region Comparator Getters
+
+
+  public static Comparator<Product> getDefaultComparator() {
+    return new Comparator<Product>() {
+      @Override
+      public int compare(Product lhs, Product rhs) {
+        // TODO: Finish Implementing
+        return FHObject.getDefaultComparator().compare(lhs, rhs);
+      }
+    };
+  }
+
+
+  public static Comparator<AgentInvite> getSortByNameComparator() {
+    return new Comparator<AgentInvite>() {
+      @Override
+      public int compare(AgentInvite lhs, AgentInvite rhs) {
+        int commonCompareOpersResult = FHObject.runCommonCompareOperations(lhs, rhs);
+
+        if (commonCompareOpersResult != -2) {
+          return commonCompareOpersResult;
+        }
+
+        int emailComparisonResult = lhs.getEmail().compareToIgnoreCase(rhs.getEmail());
+
+        if (emailComparisonResult == 0) {
+          return lhs.getCreatedAt().compareTo(rhs.getCreatedAt());
+        }
+        return emailComparisonResult;
+      }
+    };
   }
 
 

@@ -4,6 +4,7 @@ package com.mysterioustrousers.firehose;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -424,6 +425,24 @@ public class Visitor extends FHObject implements Parcelable {
 
   public void setVisitedCurrentUrlAt(Date visitedCurrentUrlAt) {
     _visitedCurrentUrlAt = visitedCurrentUrlAt;
+  }
+
+
+  // endregion
+
+
+
+  // region Comparator Getters
+
+
+  public static Comparator<Visitor> getDefaultComparator() {
+    return new Comparator<Visitor>() {
+      @Override
+      public int compare(Visitor lhs, Visitor rhs) {
+        // TODO: Finish Implementing
+        return FHObject.getDefaultComparator().compare(lhs, rhs);
+      }
+    };
   }
 
 

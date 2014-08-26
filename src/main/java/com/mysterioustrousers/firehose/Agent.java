@@ -4,6 +4,7 @@ package com.mysterioustrousers.firehose;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -379,6 +380,24 @@ public class Agent extends FHObject {
 
   public void setNewPassword(String password) {
     // TODO: DO NOT store password! this needs to be persisted to the API immediately and then discarded from memory!!!
+  }
+
+
+  // endregion
+
+
+
+  // region Comparator Getters
+
+
+  public static Comparator<Agent> getDefaultComparator() {
+    return new Comparator<Agent>() {
+      @Override
+      public int compare(Agent lhs, Agent rhs) {
+        // TODO: Finish Implementing
+        return FHObject.getDefaultComparator().compare(lhs, rhs);
+      }
+    };
   }
 
 

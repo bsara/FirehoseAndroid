@@ -2,11 +2,13 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.apache.commons.lang3.StringUtils;
 
 
 
@@ -25,7 +27,7 @@ public class AvailabilitySettings {
   private int _secondsFromUTC;
 
   @SerializedName("time_zone_name")
-  private String _timeZoneName;
+  private String _timeZoneId;
 
 
 
@@ -36,7 +38,7 @@ public class AvailabilitySettings {
     this.setEndHourUTC(0);
     this.setManuallyUnavailable(false);
     this.setSecondsFromUTC(-1);
-    this.setTimeZoneName(null);
+    this.setTimeZoneId(null);
   }
 
 
@@ -114,20 +116,25 @@ public class AvailabilitySettings {
   }
 
 
-  public String getTimeZoneName() {
-    return _timeZoneName;
+  public String getTimeZoneId() {
+    return _timeZoneId;
   }
 
 
-  public void setTimeZoneName(String timeZoneName) {
-    _timeZoneName = timeZoneName;
+  public void setTimeZoneId(String timeZoneId) {
+    _timeZoneId = timeZoneId;
+    this.setSecondsFromUTC(StringUtils.isBlank(_timeZoneId) ? 0 : TimeZone.getTimeZone(_timeZoneId).getOffset(GregorianCalendar.ZONE_OFFSET));
   }
 
 
-  public void setTimeZone(String timeZoneId) {
-    TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
-    this.setTimeZoneName(timeZone.getDisplayName(Locale.US));
-    this.setSecondsFromUTC(timeZone.getOffset(GregorianCalendar.ZONE_OFFSET));
+  public boolean isAvailable() {
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeZone(TimeZone.getTimeZone(this.getTimeZoneId()));
+    int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+
+    return !(this.isManuallyUnavailable()
+             || currentHour < this.getStartHourForTimeZone()
+             || currentHour > this.getEndHourForTimeZone());
   }
 
 

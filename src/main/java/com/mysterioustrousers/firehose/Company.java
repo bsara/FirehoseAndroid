@@ -2,10 +2,11 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.android.volley.Response;
 import com.google.gson.annotations.SerializedName;
@@ -50,13 +51,16 @@ public class Company extends FHObject {
   private boolean _isPremium;
 
   @SerializedName("agents")
-  private List<Agent> _agents;  // TODO: Change from List to Set
+  private SortedSet<Agent> _agents;
 
   @SerializedName("agent_invites")
-  private List<AgentInvite> _agentInvites;  // TODO: Change from List to Set
+  private SortedSet<AgentInvite> _agentInvites;
 
   @SerializedName("products")
-  private List<Product> _products;  // TODO: Change from List to Set
+  private SortedSet<Product> _products;
+
+
+  private Product _currentProduct;
 
 
 
@@ -74,9 +78,15 @@ public class Company extends FHObject {
     this.setIsBrandNew(false);
     this.setIsChatEnabled(false);
     this.setIsPremium(false);
-    this.setAgents(new ArrayList<Agent>());
-    this.setAgentInvites(new ArrayList<AgentInvite>());
-    this.setProducts(new ArrayList<Product>());
+    this.setAgents(new TreeSet<Agent>(Agent.getDefaultComparator()));
+    this.setAgentInvites(new TreeSet<AgentInvite>(AgentInvite.getDefaultComparator()));
+    this.setProducts(new TreeSet<Product>(Product.getDefaultComparator()));
+
+    try {
+      this.setCurrentProduct(null);
+    } catch (ProductNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
 
@@ -91,7 +101,120 @@ public class Company extends FHObject {
 
 
 
-  // region Getters & Setters
+  // region Agents Interface
+
+
+  public SortedSet<Agent> getAgents() {
+    return _agents;
+  }
+
+
+  public void setAgents(SortedSet<Agent> agents) {
+    _agents = agents;
+  }
+
+
+  // endregion
+
+
+
+  // region Agent Invites Interface
+
+
+  public SortedSet<AgentInvite> getAgentInvites() {
+    return _agentInvites;
+  }
+
+
+  public void setAgentInvites(SortedSet<AgentInvite> invites) {
+    _agentInvites = invites;
+  }
+
+
+  // endregion
+
+
+
+  // region Products Interface
+
+
+  public SortedSet<Product> getProducts() {
+    return _products;
+  }
+
+
+  public void setProducts(SortedSet<Product> products) {
+    _products = products;
+  }
+
+
+  public void clearProducts() {
+    this.getProducts().clear();
+  }
+
+
+  public boolean hasProduct(Product product) {
+    return this.getProducts().contains(product);
+  }
+
+
+  public boolean addProduct(Product product) {
+    return this.getProducts().add(product);
+  }
+
+
+  public boolean removeProduct(Product product) {
+    return this.getProducts().remove(product);
+  }
+
+
+  public Product getCurrentProduct() {
+    return _currentProduct;
+  }
+
+
+  public void setCurrentProductAsOldest() {
+    _currentProduct = this.getProducts().first();
+  }
+
+
+  public void setCurrentProduct(Object productId) throws ProductNotFoundException {
+    Product product = new Product();
+    product.setId(productId);
+
+    this.setCurrentProduct(product);
+  }
+
+
+  public void setCurrentProduct(Product product) throws ProductNotFoundException {
+    if (product == null || product.getId() == null) {
+      _currentProduct = null;
+      return;
+    }
+
+    if (this.getCurrentProduct().equals(product)) {
+      return;
+    }
+
+    for (Product companyProduct : this.getProducts()) {
+      if (companyProduct == _currentProduct) {
+        continue;
+      }
+      if (companyProduct.equals(product)) {
+        _currentProduct = product;
+        return;
+      }
+    }
+
+    throw new ProductNotFoundException(product);
+  }
+
+
+  // endregion
+
+
+
+  // region Getters/Setters
 
 
   public boolean fetchAutomatically() {
@@ -204,33 +327,21 @@ public class Company extends FHObject {
   }
 
 
-  public List<Agent> getAgents() {
-    return _agents;
-  }
+  // endregion
 
 
-  public void setAgents(List<Agent> agents) {
-    _agents = agents;
-  }
+
+  // region Comparator Getters
 
 
-  public List<AgentInvite> getAgentInvites() {
-    return _agentInvites;
-  }
-
-
-  public void setAgentInvites(List<AgentInvite> invites) {
-    _agentInvites = invites;
-  }
-
-
-  public List<Product> getProducts() {
-    return _products;
-  }
-
-
-  public void setProducts(List<Product> products) {
-    _products = products;
+  public static Comparator<Product> getDefaultComparator() {
+    return new Comparator<Product>() {
+      @Override
+      public int compare(Product lhs, Product rhs) {
+        // TODO: Finish Implementing
+        return FHObject.getDefaultComparator().compare(lhs, rhs);
+      }
+    };
   }
 
 

@@ -2,6 +2,7 @@ package com.mysterioustrousers.firehose;
 
 
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
@@ -53,6 +54,43 @@ public abstract class FHObject {
 
   public void setCreatedAt(Date createdAt) {
     _createdAt = createdAt;
+  }
+
+
+  // endregion
+
+
+
+  // region Comparator Getters
+
+
+  public static <T extends FHObject> Comparator<T> getDefaultComparator() {
+    return new Comparator<T>() {
+      @Override
+      public int compare(FHObject lhs, FHObject rhs) {
+        int commonCompareOpersResult = FHObject.runCommonCompareOperations(lhs, rhs);
+
+        if (commonCompareOpersResult != -2) {
+          return commonCompareOpersResult;
+        }
+
+        return lhs.getCreatedAt().compareTo(rhs.getCreatedAt());
+      }
+    };
+  }
+
+
+  protected static int runCommonCompareOperations(FHObject lhs, FHObject rhs) {
+    if (lhs == null && rhs != null) {
+      return -1;
+    }
+    if (lhs != null && rhs == null) {
+      return 1;
+    }
+    if (lhs == rhs || lhs.equals(rhs)) {
+      return 0;
+    }
+    return -2;
   }
 
 
