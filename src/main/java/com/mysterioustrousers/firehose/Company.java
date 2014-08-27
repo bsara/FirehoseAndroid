@@ -2,11 +2,11 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.List;
 
 import com.android.volley.Response;
 import com.google.gson.annotations.SerializedName;
@@ -51,13 +51,13 @@ public class Company extends FHObject {
   private boolean _isPremium;
 
   @SerializedName("agents")
-  private SortedSet<Agent> _agents;
+  private List<Agent> _agents;  // TODO: Change from List to Set
 
   @SerializedName("agent_invites")
-  private SortedSet<AgentInvite> _agentInvites;
+  private List<AgentInvite> _agentInvites;  // TODO: Change from List to Set
 
   @SerializedName("products")
-  private SortedSet<Product> _products;
+  private List<Product> _products;  // TODO: Change from List to Set
 
 
   private Product _currentProduct;
@@ -78,9 +78,9 @@ public class Company extends FHObject {
     this.setIsBrandNew(false);
     this.setIsChatEnabled(false);
     this.setIsPremium(false);
-    this.setAgents(new TreeSet<Agent>(Agent.getDefaultComparator()));
-    this.setAgentInvites(new TreeSet<AgentInvite>(AgentInvite.getDefaultComparator()));
-    this.setProducts(new TreeSet<Product>(Product.getDefaultComparator()));
+    this.setAgents(new ArrayList<Agent>());
+    this.setAgentInvites(new ArrayList<AgentInvite>());
+    this.setProducts(new ArrayList<Product>());
 
     try {
       this.setCurrentProduct(null);
@@ -104,12 +104,12 @@ public class Company extends FHObject {
   // region Agents Interface
 
 
-  public SortedSet<Agent> getAgents() {
+  public List<Agent> getAgents() {
     return _agents;
   }
 
 
-  public void setAgents(SortedSet<Agent> agents) {
+  public void setAgents(List<Agent> agents) {
     _agents = agents;
   }
 
@@ -121,12 +121,12 @@ public class Company extends FHObject {
   // region Agent Invites Interface
 
 
-  public SortedSet<AgentInvite> getAgentInvites() {
+  public List<AgentInvite> getAgentInvites() {
     return _agentInvites;
   }
 
 
-  public void setAgentInvites(SortedSet<AgentInvite> invites) {
+  public void setAgentInvites(List<AgentInvite> invites) {
     _agentInvites = invites;
   }
 
@@ -138,12 +138,12 @@ public class Company extends FHObject {
   // region Products Interface
 
 
-  public SortedSet<Product> getProducts() {
+  public List<Product> getProducts() {
     return _products;
   }
 
 
-  public void setProducts(SortedSet<Product> products) {
+  public void setProducts(List<Product> products) {
     _products = products;
   }
 
@@ -154,14 +154,63 @@ public class Company extends FHObject {
 
 
   public boolean hasProduct(Product product) {
-    return this.getProducts().contains(product);
+    return (product != null && this.hasProduct(product.getId()));
   }
 
+
+  /*
+
+  public boolean hasProduct(Object productId) {
+    return this.getProducts().containsKey(productId);
+  }
+
+  */
+
+  public boolean hasProduct(Object productId) {
+    return (this.getProduct(productId) != null);
+  }
+
+
+  /*
+
+  public Product getProduct(Object productId) {
+    return this.getProducts().get(productId);
+  }
+
+  */
+
+  public Product getProduct(Object productId) {
+    if (productId != null) {
+      for (Product product : this.getProducts()) {
+        if (productId.equals(product.getId())) {
+          return product;
+        }
+      }
+    }
+    return null;
+  }
+
+
+  /*
+
+  public Product addProduct(Product product) {
+    return this.getProducts().put(product.getId(), product);
+  }
+
+  */
 
   public boolean addProduct(Product product) {
-    return this.getProducts().add(product);
+    return (!this.hasProduct(product) && this.getProducts().add(product));
   }
 
+
+  /*
+
+  public Product removeProduct(Product product) {
+    return this.getProducts().remove(product.getId());
+  }
+
+  */
 
   public boolean removeProduct(Product product) {
     return this.getProducts().remove(product);
@@ -173,8 +222,19 @@ public class Company extends FHObject {
   }
 
 
+  /*
+
   public void setCurrentProductAsOldest() {
-    _currentProduct = this.getProducts().first();
+    _currentProduct = this.getProducts().get(this.getProducts().firstKey());
+  }
+
+  */
+
+  public void setCurrentProductAsOldest() {
+    ArrayList<Product> tempList = new ArrayList<Product>(this.getProducts());
+    Collections.sort(tempList);
+
+    _currentProduct = tempList.get(0);
   }
 
 
@@ -184,6 +244,7 @@ public class Company extends FHObject {
 
     this.setCurrentProduct(product);
   }
+
 
 
   public void setCurrentProduct(Product product) throws ProductNotFoundException {
@@ -196,14 +257,9 @@ public class Company extends FHObject {
       return;
     }
 
-    for (Product companyProduct : this.getProducts()) {
-      if (companyProduct == _currentProduct) {
-        continue;
-      }
-      if (companyProduct.equals(product)) {
-        _currentProduct = product;
-        return;
-      }
+    if (this.hasProduct(product)) {
+      _currentProduct = this.getProduct(product.getId());
+      return;
     }
 
     throw new ProductNotFoundException(product);
@@ -324,24 +380,6 @@ public class Company extends FHObject {
 
   public void setIsPremium(boolean isPremium) {
     _isPremium = isPremium;
-  }
-
-
-  // endregion
-
-
-
-  // region Comparator Getters
-
-
-  public static Comparator<Product> getDefaultComparator() {
-    return new Comparator<Product>() {
-      @Override
-      public int compare(Product lhs, Product rhs) {
-        // TODO: Finish Implementing
-        return FHObject.getDefaultComparator().compare(lhs, rhs);
-      }
-    };
   }
 
 

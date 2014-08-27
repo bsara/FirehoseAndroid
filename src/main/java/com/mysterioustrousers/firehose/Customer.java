@@ -237,22 +237,4 @@ public class Customer extends FHObject {
 
 
   // endregion
-
-
-
-  // region Comparator Getters
-
-
-  public static Comparator<Customer> getDefaultComparator() {
-    return new Comparator<Customer>() {
-      @Override
-      public int compare(Customer lhs, Customer rhs) {
-        // TODO: Finish Implementing
-        return FHObject.getDefaultComparator().compare(lhs, rhs);
-      }
-    };
-  }
-
-
-  // endregion
 }

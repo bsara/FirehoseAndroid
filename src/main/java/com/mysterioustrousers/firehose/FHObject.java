@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public abstract class FHObject {
+public abstract class FHObject implements Comparable<FHObject> {
 
   @SerializedName("id")
   private Object _id;
@@ -61,46 +61,30 @@ public abstract class FHObject {
 
 
 
-  // region Comparator Getters
-
-
-  public static <T extends FHObject> Comparator<T> getDefaultComparator() {
-    return new Comparator<T>() {
-      @Override
-      public int compare(FHObject lhs, FHObject rhs) {
-        int commonCompareOpersResult = FHObject.runCommonCompareOperations(lhs, rhs);
-
-        if (commonCompareOpersResult != -2) {
-          return commonCompareOpersResult;
-        }
-
-        return lhs.getCreatedAt().compareTo(rhs.getCreatedAt());
-      }
-    };
+  @Override
+  public int compareTo(FHObject obj) {
+    int commonComparisonsResult = this.runCommonComparisons(obj);
+    if (commonComparisonsResult != -2) {
+      return commonComparisonsResult;
+    }
+    return this.getCreatedAt().compareTo(obj.getCreatedAt());
   }
 
 
-  protected static int runCommonCompareOperations(FHObject lhs, FHObject rhs) {
-    if (lhs == null && rhs != null) {
+  protected int runCommonComparisons(FHObject obj) {
+    if (obj == null) {
       return -1;
     }
-    if (lhs != null && rhs == null) {
-      return 1;
-    }
-    if (lhs == rhs || lhs.equals(rhs)) {
+    if (this.equals(obj)) {
       return 0;
     }
     return -2;
   }
 
 
-  // endregion
-
-
-
   @Override
   public int hashCode() {
-    return this.getId().hashCode();
+    return (this.getClass().getName() + this.getId()).hashCode();
   }
 
 

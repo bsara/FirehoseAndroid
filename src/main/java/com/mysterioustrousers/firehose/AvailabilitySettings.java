@@ -34,11 +34,11 @@ public class AvailabilitySettings {
   public AvailabilitySettings() {
     super();
 
+    this.setSecondsFromUTC(0);
+    this.setTimeZoneId(null);
     this.setStartHourUTC(0);
     this.setEndHourUTC(0);
     this.setManuallyUnavailable(false);
-    this.setSecondsFromUTC(-1);
-    this.setTimeZoneId(null);
   }
 
 
@@ -117,7 +117,7 @@ public class AvailabilitySettings {
 
 
   public String getTimeZoneId() {
-    return _timeZoneId;
+    return StringUtils.defaultIfBlank(_timeZoneId, Calendar.getInstance().getTimeZone().getID());
   }
 
 

@@ -2,8 +2,6 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.Comparator;
-
 import com.google.gson.annotations.SerializedName;
 
 
@@ -57,34 +55,23 @@ public class AgentInvite extends FHObject {
   // region Comparator Getters
 
 
-  public static Comparator<AgentInvite> getDefaultComparator() {
-    return new Comparator<AgentInvite>() {
-      @Override
-      public int compare(AgentInvite lhs, AgentInvite rhs) {
-        return FHObject.getDefaultComparator().compare(lhs, rhs);
+  @Override
+  public int compareTo(FHObject obj) {
+    if (obj instanceof AgentInvite) {
+      int commonComparisonsResult = this.runCommonComparisons(obj);
+      if (commonComparisonsResult != -2) {
+        return commonComparisonsResult;
       }
-    };
-  }
 
+      AgentInvite otherInvite = (AgentInvite)obj;
 
-  public static Comparator<AgentInvite> getSortByEmailComparator() {
-    return new Comparator<AgentInvite>() {
-      @Override
-      public int compare(AgentInvite lhs, AgentInvite rhs) {
-        int commonCompareOpersResult = FHObject.runCommonCompareOperations(lhs, rhs);
-
-        if (commonCompareOpersResult != -2) {
-          return commonCompareOpersResult;
-        }
-
-        int emailComparisonResult = lhs.getEmail().compareToIgnoreCase(rhs.getEmail());
-
-        if (emailComparisonResult == 0) {
-          return lhs.getCreatedAt().compareTo(rhs.getCreatedAt());
-        }
+      int emailComparisonResult = this.getEmail().compareTo(otherInvite.getEmail());
+      if (emailComparisonResult != 0) {
         return emailComparisonResult;
       }
-    };
+    }
+
+    return super.compareTo(obj);
   }
 
 

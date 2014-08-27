@@ -4,7 +4,7 @@ package com.mysterioustrousers.firehose;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -211,7 +211,121 @@ public class Agent extends FHObject {
 
 
 
-  // region Getters & Setters
+  // region Companies Interface
+
+
+
+  public List<Company> getCompanies() {
+    return _companies;
+  }
+
+
+  public void setCompanies(List<Company> companies) {
+    _companies = companies;
+  }
+
+
+  public void clearCompanies() {
+    this.getCompanies().clear();
+  }
+
+
+  public boolean isInCompany(Company company) {
+    return (company != null && this.isInCompany(company.getId()));
+  }
+
+
+  public boolean isInCompany(Object companyId) {
+    return (companyId != null && this.getCompany(companyId) != null);
+  }
+
+
+  public Company getCompany(Object companyId) {
+    if (companyId != null) {
+      for (Company company : this.getCompanies()) {
+        if (companyId.equals(company.getId())) {
+          return company;
+        }
+      }
+    }
+    return null;
+  }
+
+
+  public boolean addCompany(Company company) {
+    // TODO: Add functionality to add agent to company agents list
+    return (!this.isInCompany(company) && this.getCompanies().add(company));
+  }
+
+
+  public boolean removeCompany(Product company) {
+    // TODO: Add functionality to remove agent to company agents list
+    return this.getCompanies().remove(company);
+  }
+
+
+  public Company getCurrentCompany() {
+    return _currentCompany;
+  }
+
+
+  public void setCurrentCompanyAsOldest() {
+    ArrayList<Company> tempList = new ArrayList<Company>(this.getCompanies());
+    Collections.sort(tempList);
+
+    _currentCompany = tempList.get(0);
+  }
+
+
+  public void setCurrentCompany(Object companyId) throws CompanyNotFoundException {
+    Company company = new Company();
+    company.setId(companyId);
+
+    this.setCurrentCompany(company);
+  }
+
+
+  public void setCurrentCompany(Company company) throws CompanyNotFoundException {
+    if (company == null || company.getId() == null) {
+      _currentCompany = null;
+      return;
+    }
+
+    if (this.getCurrentCompany().equals(company)) {
+      return;
+    }
+
+    if (this.isInCompany(company)) {
+      _currentCompany = this.getCompany(company.getId());
+      return;
+    }
+
+    throw new CompanyNotFoundException(company);
+  }
+
+
+  // endregion
+
+
+
+  // region Devices Interface
+
+
+  public List<Device> getDevices() {
+    return _devices;
+  }
+
+
+  public void setDevices(List<Device> devices) {
+    _devices = devices;
+  }
+
+
+  // endregion
+
+
+
+  // region Getters/Setters
 
 
   public static Agent getLoggedInAgent() {
@@ -314,70 +428,6 @@ public class Agent extends FHObject {
   }
 
 
-  public List<Company> getCompanies() {
-    return _companies;
-  }
-
-
-  public void setCompanies(List<Company> companies) {
-    _companies = companies;
-  }
-
-
-  public List<Device> getDevices() {
-    return _devices;
-  }
-
-
-  public void setDevices(List<Device> devices) {
-    _devices = devices;
-  }
-
-
-  public Company getCurrentCompany() {
-    return _currentCompany;
-  }
-
-
-  public void setCurrentCompanyAsFirstInList() {
-    if (!_companies.isEmpty()) {
-      _currentCompany = _companies.get(0);
-    }
-  }
-
-
-  public void setCurrentCompany(Object companyId) throws CompanyNotFoundException {
-    Company company = new Company();
-    company.setId(companyId);
-
-    this.setCurrentCompany(company);
-  }
-
-
-  public void setCurrentCompany(Company company) throws CompanyNotFoundException {
-    if (company == null || company.getId() == null) {
-      _currentCompany = null;
-      return;
-    }
-
-    if (this.getCurrentCompany().equals(company)) {
-      return;
-    }
-
-    for (Company agentCompany : _companies) {
-      if (agentCompany == _currentCompany) {
-        continue;
-      }
-      if (agentCompany.equals(company)) {
-        _currentCompany = company;
-        return;
-      }
-    }
-
-    throw new CompanyNotFoundException(company);
-  }
-
-
   public void setNewPassword(String password) {
     // TODO: DO NOT store password! this needs to be persisted to the API immediately and then discarded from memory!!!
   }
@@ -387,19 +437,27 @@ public class Agent extends FHObject {
 
 
 
-  // region Comparator Getters
-
-
-  public static Comparator<Agent> getDefaultComparator() {
-    return new Comparator<Agent>() {
-      @Override
-      public int compare(Agent lhs, Agent rhs) {
-        // TODO: Finish Implementing
-        return FHObject.getDefaultComparator().compare(lhs, rhs);
+  @Override
+  public int compareTo(FHObject obj) {
+    if (obj instanceof Agent) {
+      int commonComparisonsResult = this.runCommonComparisons(obj);
+      if (commonComparisonsResult != -2) {
+        return commonComparisonsResult;
       }
-    };
+
+      Agent otherAgent = (Agent)obj;
+
+      int displayNameComparisonResult = this.getDisplayName().compareTo(otherAgent.getDisplayName());
+      if (displayNameComparisonResult != 0) {
+        return displayNameComparisonResult;
+      }
+
+      int emailComparisonResult = this.getEmail().compareTo(otherAgent.getEmail());
+      if (emailComparisonResult != 0) {
+        return emailComparisonResult;
+      }
+    }
+
+    return super.compareTo(obj);
   }
-
-
-  // endregion
 }
