@@ -4,7 +4,6 @@ package com.mysterioustrousers.firehose;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -53,12 +52,28 @@ public class AgentSettings extends FHObject {
 
 
   public int getAvailabilityStartHourForTimeZone() {
-    return this.getAvailabilityStartHourUTC() + this.getAvailabilityHoursFromUTC();
+    int ret = this.getAvailabilityStartHourUTC() + this.getAvailabilityHoursFromUTC();
+
+    if (ret >= 24) {
+      ret -= 24;
+    } else if (ret < 0) {
+      ret += 24;
+    }
+
+    return ret;
   }
 
 
   public void setAvailabilityStartHourForTimeZone(int startHour) {
-    _availabilityStartHourUTC = startHour - this.getAvailabilityHoursFromUTC();
+    int newHour = startHour - this.getAvailabilityHoursFromUTC();
+
+    if (newHour >= 24) {
+      newHour -= 24;
+    } else if (newHour < 0) {
+      newHour += 24;
+    }
+
+    _availabilityStartHourUTC = newHour;
   }
 
 
@@ -73,12 +88,28 @@ public class AgentSettings extends FHObject {
 
 
   public int getAvailabilityEndHourForTimeZone() {
-    return this.getAvailabilityEndHourUTC() + this.getAvailabilityHoursFromUTC();
+    int ret = this.getAvailabilityEndHourUTC() + this.getAvailabilityHoursFromUTC();
+
+    if (ret >= 24) {
+      ret -= 24;
+    } else if (ret < 0) {
+      ret += 24;
+    }
+
+    return ret;
   }
 
 
   public void setAvailabilityEndHourForTimeZone(int endHour) {
-    _availabilityEndHourUTC = endHour - this.getAvailabilityHoursFromUTC();
+    int newHour = endHour - this.getAvailabilityHoursFromUTC();
+
+    if (newHour >= 24) {
+      newHour -= 24;
+    } else if (newHour < 0) {
+      newHour += 24;
+    }
+
+    _availabilityEndHourUTC = newHour;
   }
 
 
@@ -129,7 +160,13 @@ public class AgentSettings extends FHObject {
 
   public void setAvailabilityTimeZoneId(String timeZoneId) {
     _availabilityTimeZoneId = timeZoneId;
-    this.setAvailabilitySecondsFromUTC(StringUtils.isBlank(_availabilityTimeZoneId) ? 0 : TimeZone.getTimeZone(_availabilityTimeZoneId).getOffset(GregorianCalendar.ZONE_OFFSET));
+
+    Calendar utcCal = Calendar.getInstance();
+    utcCal.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+    long milliseconds = StringUtils.isBlank(_availabilityTimeZoneId) ? 0 : TimeZone.getTimeZone(_availabilityTimeZoneId).getOffset(utcCal.getTimeInMillis());
+
+    this.setAvailabilitySecondsFromUTC((int)(milliseconds / 1000));
   }
 
 
@@ -138,9 +175,9 @@ public class AgentSettings extends FHObject {
     cal.setTimeZone(TimeZone.getTimeZone(this.getAvailabilityTimeZoneId()));
     int currentHour = cal.get(Calendar.HOUR_OF_DAY);
 
-    return !(this.isManuallyUnavailable()
-             || currentHour < this.getAvailabilityStartHourForTimeZone()
-             || currentHour > this.getAvailabilityEndHourForTimeZone());
+    return !this.isManuallyUnavailable()
+           && currentHour > this.getAvailabilityStartHourForTimeZone()
+           && currentHour < this.getAvailabilityEndHourForTimeZone();
   }
 
 
