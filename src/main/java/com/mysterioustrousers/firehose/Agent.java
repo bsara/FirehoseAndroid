@@ -15,8 +15,11 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.mysterioustrousers.firehose.net.FHClient;
+import com.mysterioustrousers.firehose.net.FHClientOptions;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -156,38 +159,45 @@ public class Agent extends FHObject {
   }
 
 
-  public GsonRequest<String> update(UpdateType updateType, Listener<String> listener, ErrorListener errorListener) {
-    double aid = Double.parseDouble(this.getId().toString());
-    int agentId = (int)aid;
-    String url = String.format("%s/agents/%d", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), agentId);
-
-    HashMap<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", getAccessToken()));
+  public void update() throws JSONException {
+    this.update(null, null);
+  }
 
 
-    Gson gson = new Gson();
-    JSONObject jsonObject = new JSONObject();
-    JSONObject agent = new JSONObject();
-    try {
-      if (updateType.equals(UpdateType.AGENT_SETTINGS)) {
-        JSONObject agentSettings = new JSONObject(gson.toJson(getAgentSettings()));
-        agent.put("agent_settings_attributes", agentSettings);
-      } else if (updateType.equals(UpdateType.AGENT_INFO)) {
-        agent.put("first_name", getFirstName());
-        agent.put("last_name", getLastName());
-        agent.put("email", getEmail());
-        /*
-        if (getPassword() != null) {
-          agent.put("password", getPassword());
-        }
-        */
-      }
-      jsonObject.put("agent", agent);
-    } catch (Exception e) {
-      errorListener.onErrorResponse(new ParseError(e));
+  public void update(Listener<String> onNoErrorListener) throws JSONException {
+    this.update(onNoErrorListener, null);
+  }
+
+
+  public void update(ErrorListener onErrorListener) throws JSONException {
+    this.update(null, onErrorListener);
+  }
+
+
+  public void update(Listener<String> onNoErrorListener, ErrorListener onErrorListener) throws JSONException {
+    JSONObject agentJSON = new JSONObject();
+    agentJSON.put("agent_settings_attributes", new JSONObject(new Gson().toJson(this.getAgentSettings())));
+    agentJSON.put("first_name", getFirstName());
+    agentJSON.put("last_name", getLastName());
+    agentJSON.put("email", getEmail());
+    /*
+    if (getPassword() != null) {
+      agent.put("password", getPassword());
     }
+    */
 
-    return new GsonRequest<String>(Request.Method.PUT, url, String.class, headers, jsonObject, listener, errorListener);
+    JSONObject json = new JSONObject();
+    json.put("agent", agentJSON);
+
+
+    FHClientOptions options = new FHClientOptions(FHApplication.API, "/agents/" + this.getId(), true);
+    options.addHeader("Authorization", String.format("Token token=\"%s\"", getAccessToken()));
+    options.setJSON(json);
+    options.setResponseNoErrorListener(onNoErrorListener);
+    options.setResponseErrorListener(onErrorListener);
+
+
+    FHClient.getInstance().jsonPut(options);
   }
 
 

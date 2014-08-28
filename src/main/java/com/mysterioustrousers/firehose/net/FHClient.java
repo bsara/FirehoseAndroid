@@ -2,13 +2,17 @@ package com.mysterioustrousers.firehose.net;
 
 
 
-import com.mysterioustrousers.firehose.FHApplication;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.mysterioustrousers.firehose.EnvironmentManager;
+import com.mysterioustrousers.firehose.GsonRequest;
 
 
 
 public class FHClient {
 
-  // region: Singleton Implementation
+  // region Singleton Implementation
+
 
   private static FHClient s_instance = null;
 
@@ -20,35 +24,87 @@ public class FHClient {
     return s_instance;
   }
 
+
   // endregion
 
 
 
-  private FHClient() {}
+  private RequestQueue _requestQueue;
 
 
 
-  public void get(FHApplication server) {
-    // TODO: Implement
+  private FHClient() {
+    _requestQueue = null;
   }
 
 
-  public void post(FHApplication server) {
-    // TODO: Implement
+
+  // region JSON Requests
+
+
+  public void jsonGet(FHClientOptions options, Class expectedReturnType) {
+    this.sendJSONRequest(options, Request.Method.GET, expectedReturnType);
   }
 
 
-  public void put(FHApplication server) {
-    // TODO: Implement
+  public void jsonPost(FHClientOptions options) {
+    this.sendJSONRequest(options, Request.Method.POST, null);
   }
 
 
-  public void delete(FHApplication server) {
-    // TODO: Implement
+  public void jsonPut(FHClientOptions options) {
+    this.sendJSONRequest(options, Request.Method.PUT, String.class);
   }
 
 
-  private void sendRequest(FHApplication server) {
-    // TODO: Implement
+  public void jsonDelete(FHClientOptions options) {
+    this.sendJSONRequest(options, Request.Method.DELETE, null);
   }
+
+
+  private void sendJSONRequest(FHClientOptions options, int requestType, Class expectedReturnType) {
+    String url = (options.useRemoteEnvironmentInstance() ? EnvironmentManager.getRemoteInstance() : EnvironmentManager.getInstance()).getBaseURL(options.getApplication()) + options.getURLPath();
+
+    if (expectedReturnType == null) {
+      expectedReturnType = Object.class;
+    }
+
+
+    GsonRequest gsonReq;
+
+    if (options.getHeaders().isEmpty()) {
+      gsonReq = new GsonRequest(requestType, url, expectedReturnType, options.getJSON(), options.getResponseNoErrorListener(), options.getResponseErrorListener());
+    } else {
+      gsonReq = new GsonRequest(requestType, url, expectedReturnType, options.getHeaders(), options.getJSON(), options.getResponseNoErrorListener(), options.getResponseErrorListener());
+    }
+
+
+    RequestQueue reqQueue = (options.getRequestQueue() == null) ? _requestQueue : options.getRequestQueue();
+
+    if (reqQueue == null) {
+      throw new IllegalArgumentException("No RequestQueue was found! Either call FHClient.setGlobalRequestQueue() or provide a RequestQueue in the FHClientOptions given.");
+    }
+
+    reqQueue.add(gsonReq);
+  }
+
+
+  // endregion
+
+
+
+  // region RequestQueue
+
+
+  public void setGlobalRequestQueue(RequestQueue requestQueue) {
+    _requestQueue = requestQueue;
+  }
+
+
+  public void resetGlobalRequestQueue() {
+    _requestQueue = null;
+  }
+
+
+  // endregion
 }
