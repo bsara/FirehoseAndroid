@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import com.android.volley.ParseError;
@@ -25,12 +24,6 @@ import org.json.JSONObject;
 
 
 public class Agent extends FHObject {
-
-  public enum UpdateType {
-    AGENT_INFO,
-    AGENT_SETTINGS
-  }
-
 
   private static transient Agent s_loggedInAgent = null;
 
@@ -96,29 +89,60 @@ public class Agent extends FHObject {
   }
 
 
+  // region Static Actions
 
-  public static GsonRequest<Agent> login(String email, String password, Listener<Agent> listener, ErrorListener errorListener) {
-    String url = String.format("%s/login", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
 
-    JSONObject jsonObject = new JSONObject();
-    try {
-      jsonObject.put("email", email);
-      jsonObject.put("password", password);
-    } catch (Exception e) {
-      errorListener.onErrorResponse(new ParseError(e));
-    }
-
-    return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, jsonObject, listener, errorListener);
+  public static void loginWithAccessToken(String accessToken) throws JSONException {
+    Agent.loginWithAccessToken(accessToken, null, null);
   }
 
 
-  public static GsonRequest<Agent> login(String accessToken, Listener<Agent> listener, ErrorListener errorListener) {
-    String url = String.format("%s/login", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+  public static void loginWithAccessToken(String accessToken, Listener<Agent> onNoErrorListener) throws JSONException {
+    Agent.loginWithAccessToken(accessToken, onNoErrorListener, null);
+  }
 
-    HashMap<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", accessToken));
 
-    return new GsonRequest<Agent>(Request.Method.POST, url, Agent.class, headers, null, listener, errorListener);
+  public static void loginWithAccessToken(String accessToken, ErrorListener onErrorListener) throws JSONException {
+    Agent.loginWithAccessToken(accessToken, null, onErrorListener);
+  }
+
+
+  public static void loginWithAccessToken(String accessToken, Listener<Agent> onNoErrorListener, ErrorListener onErrorListener) throws JSONException {
+    FHClientOptions options = new FHClientOptions(FHApplication.API, "/login", true);
+    options.addHeader("Authorization", String.format("Token token=\"%s\"", accessToken));
+    options.setResponseNoErrorListener(onNoErrorListener);
+    options.setResponseErrorListener(onErrorListener);
+
+    FHClient.getInstance().jsonPost(options);
+  }
+
+
+  public static void loginWithCredentials(String email, String password) throws JSONException {
+    Agent.loginWithCredentials(email, password, null, null);
+  }
+
+
+  public static void loginWithCredentials(String email, String password, Listener<Agent> onNoErrorListener) throws JSONException {
+    Agent.loginWithCredentials(email, password, onNoErrorListener, null);
+  }
+
+
+  public static void loginWithCredentials(String email, String password, ErrorListener onErrorListener) throws JSONException {
+    Agent.loginWithCredentials(email, password, null, onErrorListener);
+  }
+
+
+  public static void loginWithCredentials(String email, String password, Listener<Agent> onNoErrorListener, ErrorListener onErrorListener) throws JSONException {
+    JSONObject json = new JSONObject();
+    json.put("email", email);
+    json.put("password", password);
+
+    FHClientOptions options = new FHClientOptions(FHApplication.API, "/login", true);
+    options.setJSON(json);
+    options.setResponseNoErrorListener(onNoErrorListener);
+    options.setResponseErrorListener(onErrorListener);
+
+    FHClient.getInstance().jsonPost(options);
   }
 
 
@@ -159,6 +183,26 @@ public class Agent extends FHObject {
   }
 
 
+  public static GsonRequest<String> requestPasswordReset(String email, Listener<String> listener, ErrorListener errorListener) {
+    String url = String.format("%s/request_reset_password", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
+    JSONObject jsonObject = new JSONObject();
+    try {
+      jsonObject.put("email", email);
+    } catch (Exception e) {
+      errorListener.onErrorResponse(new ParseError(e));
+    }
+
+    return new GsonRequest<String>(Request.Method.POST, url, String.class, jsonObject, listener, errorListener);
+  }
+
+
+  // endregion
+
+
+
+  // region Actions
+
+
   public void update() throws JSONException {
     this.update(null, null);
   }
@@ -180,49 +224,22 @@ public class Agent extends FHObject {
     agentJSON.put("first_name", getFirstName());
     agentJSON.put("last_name", getLastName());
     agentJSON.put("email", getEmail());
-    /*
-    if (getPassword() != null) {
-      agent.put("password", getPassword());
-    }
-    */
-
-    JSONObject json = new JSONObject();
-    json.put("agent", agentJSON);
-
 
     FHClientOptions options = new FHClientOptions(FHApplication.API, "/agents/" + this.getId(), true);
     options.addHeader("Authorization", String.format("Token token=\"%s\"", getAccessToken()));
-    options.setJSON(json);
+    options.setJSON(new JSONObject().put("agent", agentJSON));
     options.setResponseNoErrorListener(onNoErrorListener);
     options.setResponseErrorListener(onErrorListener);
-
 
     FHClient.getInstance().jsonPut(options);
   }
 
 
-  public static GsonRequest<String> requestPasswordReset(String email, Listener<String> listener, ErrorListener errorListener) {
-    String url = String.format("%s/request_reset_password", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
-    JSONObject jsonObject = new JSONObject();
-    try {
-      jsonObject.put("email", email);
-    } catch (Exception e) {
-      errorListener.onErrorResponse(new ParseError(e));
-    }
-
-    return new GsonRequest<String>(Request.Method.POST, url, String.class, jsonObject, listener, errorListener);
-  }
-
-
-  public String getShortName() {
-    String lastInitial = (!this.getLastName().isEmpty()) ? String.format(" %s.", this.getLastName().substring(0, 1)) : StringUtils.EMPTY;
-    return String.format("%s %s", this.getFirstName(), lastInitial);
-  }
+  // endregion
 
 
 
   // region Companies Interface
-
 
 
   public List<Company> getCompanies() {
@@ -395,6 +412,12 @@ public class Agent extends FHObject {
 
   public void setLastName(String lastName) {
     _lastName = lastName;
+  }
+
+
+  public String getShortName() {
+    String lastInitial = (!this.getLastName().isEmpty()) ? String.format(" %s.", this.getLastName().substring(0, 1)) : StringUtils.EMPTY;
+    return String.format("%s %s", this.getFirstName(), lastInitial);
   }
 
 
