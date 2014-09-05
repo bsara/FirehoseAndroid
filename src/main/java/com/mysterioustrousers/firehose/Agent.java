@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 public class Agent extends FHObject {
 
-  private static transient Agent s_loggedInAgent = null;
+  private static Agent s_loggedInAgent = null;
 
 
   @SerializedName("access_token")
