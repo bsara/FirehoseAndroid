@@ -2,7 +2,6 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,9 +26,8 @@ public abstract class FHObject implements Comparable<FHObject> {
 
 
 
-  protected static String generatedUUID() {
-    UUID uuid = UUID.randomUUID();
-    return uuid.toString();
+  protected static String generateUUID() {
+    return UUID.randomUUID().toString();
   }
 
 
@@ -37,6 +35,7 @@ public abstract class FHObject implements Comparable<FHObject> {
   // region: Getters & Setters
 
 
+  // FIXME: This shouldn't return an Object, in fact, we should use a generic connected to FHObject to set the value of the object's ID
   public Object getId() {
     return _id;
   }

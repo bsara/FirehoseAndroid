@@ -114,10 +114,10 @@ public class Agent extends FHObject {
   public static void loginWithAccessToken(String accessToken, Listener<Agent> onSuccessListener, ErrorListener onErrorListener) throws JSONException {
     FHClientOptions options = new FHClientOptions(FHApplication.API, "/login", true);
     options.addHeader("Authorization", String.format("Token token=\"%s\"", accessToken));
-    options.setResponseNoErrorListener(onSuccessListener);
+    options.setResponseSuccessListener(onSuccessListener);
     options.setResponseErrorListener(onErrorListener);
 
-    FHClient.getInstance().jsonPost(options);
+    FHClient.getInstance().jsonPost(options, Agent.class);
   }
 
 
@@ -150,10 +150,10 @@ public class Agent extends FHObject {
 
     FHClientOptions options = new FHClientOptions(FHApplication.API, "/login", true);
     options.setJSON(json);
-    options.setResponseNoErrorListener(onSuccessListener);
+    options.setResponseSuccessListener(onSuccessListener);
     options.setResponseErrorListener(onErrorListener);
 
-    FHClient.getInstance().jsonPost(options);
+    FHClient.getInstance().jsonPost(options, Agent.class);
   }
 
 
@@ -185,10 +185,10 @@ public class Agent extends FHObject {
 
     FHClientOptions options = new FHClientOptions(FHApplication.API, "/agents", true);
     options.setJSON(new JSONObject().put("agent", agentJSON));
-    options.setResponseNoErrorListener(onSuccessListener);
+    options.setResponseSuccessListener(onSuccessListener);
     options.setResponseErrorListener(onErrorListener);
 
-    FHClient.getInstance().jsonPost(options);
+    FHClient.getInstance().jsonPost(options, Agent.class);
   }
 
 
@@ -224,10 +224,10 @@ public class Agent extends FHObject {
 
     FHClientOptions options = new FHClientOptions(FHApplication.API, "/agents", true);
     options.setJSON(new JSONObject().put("agent", agentJSON));
-    options.setResponseNoErrorListener(onSuccessListener);
+    options.setResponseSuccessListener(onSuccessListener);
     options.setResponseErrorListener(onErrorListener);
 
-    FHClient.getInstance().jsonPost(options);
+    FHClient.getInstance().jsonPost(options, Agent.class);
   }
 
 
@@ -283,7 +283,7 @@ public class Agent extends FHObject {
     FHClientOptions options = new FHClientOptions(FHApplication.API, "/agents/" + this.getId(), true);
     options.addHeader("Authorization", String.format("Token token=\"%s\"", getAccessToken()));
     options.setJSON(new JSONObject().put("agent", agentJSON));
-    options.setResponseNoErrorListener(onSuccessListener);
+    options.setResponseSuccessListener(onSuccessListener);
     options.setResponseErrorListener(onErrorListener);
 
     FHClient.getInstance().jsonPut(options);

@@ -23,7 +23,7 @@ public class FHClientOptions {
   private HashMap<String, String> _headers;
   private JSONObject              _json;
 
-  private Response.Listener      _responseNoErrorListener;
+  private Response.Listener      _responseSuccessListener;
   private Response.ErrorListener _responseErrorListener;
 
 
@@ -50,7 +50,7 @@ public class FHClientOptions {
     this.setRequestQueue(null);
     this.setJSON(null);
 
-    this.setResponseNoErrorListener(null);
+    this.setResponseSuccessListener(null);
     this.setResponseErrorListener(null);
 
     _headers = new HashMap<String, String>();
@@ -126,14 +126,14 @@ public class FHClientOptions {
   }
 
 
-  public Response.Listener getResponseNoErrorListener() {
-    return _responseNoErrorListener;
+  public Response.Listener getResponseSuccessListener() {
+    return _responseSuccessListener;
   }
 
 
-  public void setResponseNoErrorListener(Response.Listener listener) {
+  public void setResponseSuccessListener(Response.Listener listener) {
     if (listener == null) {
-      _responseNoErrorListener = new Response.Listener<Object>() {
+      _responseSuccessListener = new Response.Listener<Object>() {
         @Override
         public void onResponse(Object response) {
           // Intentionally doing nothing (a NullPointerException is thrown if a null Listener is given).
@@ -141,7 +141,7 @@ public class FHClientOptions {
       };
       return;
     }
-    _responseNoErrorListener = listener;
+    _responseSuccessListener = listener;
   }
 
 

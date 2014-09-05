@@ -48,7 +48,12 @@ public class FHClient {
 
 
   public void jsonPost(FHClientOptions options) {
-    this.sendJSONRequest(options, Request.Method.POST, null);
+    this.jsonPost(options, null);
+  }
+
+
+  public void jsonPost(FHClientOptions options, Class expectedReturnType) {
+    this.sendJSONRequest(options, Request.Method.POST, expectedReturnType);
   }
 
 
@@ -58,7 +63,7 @@ public class FHClient {
 
 
   public void jsonDelete(FHClientOptions options) {
-    this.sendJSONRequest(options, Request.Method.DELETE, null);
+    this.sendJSONRequest(options, Request.Method.DELETE, String.class);
   }
 
 
@@ -73,9 +78,9 @@ public class FHClient {
     GsonRequest gsonReq;
 
     if (options.getHeaders().isEmpty()) {
-      gsonReq = new GsonRequest(requestType, url, expectedReturnType, options.getJSON(), options.getResponseNoErrorListener(), options.getResponseErrorListener());
+      gsonReq = new GsonRequest(requestType, url, expectedReturnType, options.getJSON(), options.getResponseSuccessListener(), options.getResponseErrorListener());
     } else {
-      gsonReq = new GsonRequest(requestType, url, expectedReturnType, options.getHeaders(), options.getJSON(), options.getResponseNoErrorListener(), options.getResponseErrorListener());
+      gsonReq = new GsonRequest(requestType, url, expectedReturnType, options.getHeaders(), options.getJSON(), options.getResponseSuccessListener(), options.getResponseErrorListener());
     }
 
 

@@ -2,15 +2,13 @@ package com.mysterioustrousers.firehose;
 
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.google.gson.annotations.SerializedName;
+import com.mysterioustrousers.firehose.net.FHClient;
+import com.mysterioustrousers.firehose.net.FHClientOptions;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -19,7 +17,7 @@ public class Device extends FHObject {
 
 
   @SerializedName("device_identifier")
-  private String _deviceIdentifer;
+  private String _deviceIdentifier;
 
   @SerializedName("token")
   private String _token;
@@ -53,6 +51,7 @@ public class Device extends FHObject {
   public Device() {
     super();
 
+    this.setDeviceIdentifier(null);
     this.setToken(null);
     this.setEnvironment(null);
     this.setName(null);
@@ -66,53 +65,70 @@ public class Device extends FHObject {
 
 
 
-  public static GsonRequest<Device> create(Agent agent, String token, String model, String bundleId,
-                                           String locale, String language, String timezone,
-                                           Listener<Device> listener, ErrorListener errorListener) {
-    String url = String.format("%s/devices", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
-    String uuid = FHObject.generatedUUID(); // Just generate a uuid, since android's isn't guaranteed
+  // region Static Server Action: create
+
+
+  // TODO: Should this crate method just be made non-static? Then you would just have to set up a Device object instead of passing a billion parameters.
+  //       You would also be able to just take a gson of the object instead of manually placing everything in JSON! Why are we using gson if we aren't taking full advantage of it?!!!
+
+
+  public static void create(Agent agent, String token, String model, String bundleId, String locale, String language, String timezone) throws JSONException {
+    Device.create(agent, token, model, bundleId, locale, language, timezone, null, null);
+  }
+
+
+  public static void create(Agent agent, String token, String model, String bundleId, String locale, String language, String timezone, Listener<Device> onSuccessListener) throws JSONException {
+    Device.create(agent, token, model, bundleId, locale, language, timezone, onSuccessListener, null);
+  }
+
+
+  public static void create(Agent agent, String token, String model, String bundleId, String locale, String language, String timezone, ErrorListener onErrorListener) throws JSONException {
+    Device.create(agent, token, model, bundleId, locale, language, timezone, null, onErrorListener);
+  }
+
+
+  public static void create(Agent agent, String token, String model, String bundleId, String locale, String language, String timezone, Listener<Device> onSuccessListener, ErrorListener onErrorListener) throws JSONException {
+    // FIXME: change to set environment according to whatever is et in EnvironmentManager
     String environment = "production"; // dev and prod are the same
-    String ipAddress = "0.0.0.0"; // why is this needed?
 
-    Map<String, String> headers = new HashMap<String, String>();
-    headers.put("Authorization", String.format("Token token=\"%s\"", agent.getAccessToken()));
+    JSONObject deviceJSON = new JSONObject();
+    deviceJSON.put("token", token);
+    deviceJSON.put("environment", environment);
+    deviceJSON.put("name", model);
+    deviceJSON.put("model", model);
+    deviceJSON.put("device_identifier", FHObject.generateUUID());
+    deviceJSON.put("bundle_identifier", bundleId);
+    deviceJSON.put("locale", locale);
+    deviceJSON.put("language", language);
+    deviceJSON.put("timezone", timezone);
+    deviceJSON.put("ip_address", "0.0.0.0"); // TODO: Why is this needed?
+    deviceJSON.put("platform", "google");
 
-    JSONObject device = new JSONObject();
-    JSONObject jsonObject = new JSONObject();
-    try {
-      jsonObject.put("token", token);
-      jsonObject.put("environment", environment);
-      jsonObject.put("name", model);
-      jsonObject.put("model", model);
-      jsonObject.put("device_identifier", uuid);
-      jsonObject.put("bundle_identifier", bundleId);
-      jsonObject.put("locale", locale);
-      jsonObject.put("language", language);
-      jsonObject.put("timezone", timezone);
-      jsonObject.put("ip_address", ipAddress);
-      jsonObject.put("platform", "google");
-      device.put("device", jsonObject);
-    } catch (Exception e) {
-      errorListener.onErrorResponse(new ParseError(e));
-    }
+    FHClientOptions options = new FHClientOptions(FHApplication.API, "/devices", true);
+    options.addHeader("Authorization", String.format("Token token=\"%s\"", agent.getAccessToken()));
+    options.setJSON(new JSONObject().put("device", deviceJSON));
+    options.setResponseSuccessListener(onSuccessListener);
+    options.setResponseErrorListener(onErrorListener);
 
-    return new GsonRequest<Device>(Request.Method.POST, url, Device.class, headers, device, listener, errorListener);
+    FHClient.getInstance().jsonPost(options, Device.class);
   }
 
 
+  // endregion
 
-  // region Getters & Setters
 
 
-  public String getDeviceIdentifer() {
-    return _deviceIdentifer;
+  // region Getters/Setters
+
+
+  public String getDeviceIdentifier() {
+    return _deviceIdentifier;
   }
 
 
-  public void setDeviceIdentifer(String _deviceIdentifer) {
-    this._deviceIdentifer = _deviceIdentifer;
+  public void setDeviceIdentifier(String deviceIdentifier) {
+    _deviceIdentifier = deviceIdentifier;
   }
-
 
 
   public String getToken() {

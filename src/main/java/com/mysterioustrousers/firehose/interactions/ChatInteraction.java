@@ -48,9 +48,9 @@ public class ChatInteraction extends Interaction {
 
 
   public static ChatInteraction getChatInteraction(String visitorId, Agent agent, String messageBody, ChatInteractionType type) {
-    //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generatedUUID()));
+    //ChatInteraction interaction  = ChatInteraction.chatInteractionWithIdentifier(this.generateUUID()));
     ChatInteraction interaction = new ChatInteraction();
-    interaction.setId(FHObject.generatedUUID());
+    interaction.setId(FHObject.generateUUID());
     interaction.setType(type);
     interaction.setAgent(agent);
     interaction.setBody(messageBody);
