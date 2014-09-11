@@ -171,8 +171,11 @@ public class AgentSettings extends FHObject {
 
 
   public boolean isAvailable() {
-    if (this.isManuallyUnavailable() || this.getAvailabilityStartHourForTimeZone() == this.getAvailabilityEndHourForTimeZone()) {
+    if (this.isManuallyUnavailable()) {
       return false;
+    }
+    if (this.getAvailabilityStartHourForTimeZone() == this.getAvailabilityEndHourForTimeZone()) {
+      return true;
     }
 
     Calendar cal = Calendar.getInstance();
