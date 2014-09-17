@@ -2,6 +2,8 @@ package com.mysterioustrousers.firehose;
 
 
 
+import com.mysterioustrousers.net.InternetUtils;
+
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.apache.commons.lang3.StringUtils;
 
@@ -174,8 +176,13 @@ public class EnvironmentManager {
   }
 
 
+  public boolean isURLAvailable(FHApplication app) {
+    return InternetUtils.isURLAvailable(this.getBaseURL(app));
+  }
 
-  // region: Getters & Setters
+
+
+  // region Getters/Setters
 
 
   public Environment getEnvironment() {
