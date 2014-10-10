@@ -6,7 +6,7 @@ import com.mysterioustrousers.firehose.FHObject;
 
 
 
-public class CloudFile extends FHObject {
+public class CloudFile extends FHObject<Integer> {
 
 
   public CloudFile() {

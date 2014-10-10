@@ -35,6 +35,7 @@ public final class FHObjectFactory {
 
 
 
+  @SuppressWarnings("unchecked")
   public <T extends FHObject> T createFromId(Class<T> clazz, Object id) throws InstantiationException, IllegalAccessException {
     if (id == null) {
       throw new IllegalArgumentException("id cannot be null!");

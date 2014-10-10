@@ -13,7 +13,7 @@ import com.mysterioustrousers.firehose.accounts.CustomerAccount;
 
 
 
-public abstract class Interaction extends FHObject {
+public abstract class Interaction<T> extends FHObject<T> {
 
 
   @SerializedName("agent")

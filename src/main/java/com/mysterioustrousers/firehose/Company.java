@@ -15,7 +15,7 @@ import org.json.JSONArray;
 
 
 
-public class Company extends FHObject {
+public class Company extends FHObject<Integer> {
 
   @SerializedName("fetch_automatically")
   private boolean _fetchAutomatically;
@@ -238,7 +238,7 @@ public class Company extends FHObject {
   }
 
 
-  public void setCurrentProduct(Object productId) throws ProductNotFoundException {
+  public void setCurrentProduct(int productId) throws ProductNotFoundException {
     Product product = new Product();
     product.setId(productId);
 

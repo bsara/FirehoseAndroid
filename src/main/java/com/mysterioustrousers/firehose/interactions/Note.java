@@ -6,7 +6,7 @@ import com.mysterioustrousers.firehose.FHObject;
 
 
 
-public class Note extends FHObject {
+public class Note extends FHObject<Integer> {
 
 
   public Note() {

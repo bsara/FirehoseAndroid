@@ -8,12 +8,13 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.annotations.SerializedName;
+import com.mysterioustrousers.firehose.chat.ChatSettings;
 
 import org.json.JSONObject;
 
 
 
-public class Product extends FHObject {
+public class Product extends FHObject<Integer> {
 
   @SerializedName("kb_custom_domain")
   private String _kbCustomDomain;
@@ -30,6 +31,8 @@ public class Product extends FHObject {
   @SerializedName("website")
   private String _websiteURL;
 
+  private ChatSettings _chatSettings;
+
 
 
   public Product() {
@@ -40,14 +43,16 @@ public class Product extends FHObject {
     this.setName(null);
     this.setToken(null);
     this.setWebsiteURL(null);
+    this.setChatSettings(null);
   }
 
 
 
+  // region Server Actions
+
+
   public GsonRequest<String> emailForSnippetInstallationHelp(String toEmail, String personalMessage, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-    double productId = Double.parseDouble(getId().toString());
-    int pid = (int)productId;
-    String url = String.format("%s/products/%s/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
+    String url = String.format("%s/products/%d/send_snippet_email", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), this.getId());
 
     HashMap<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token=\"%s\"", agentAccessToken));
@@ -67,9 +72,7 @@ public class Product extends FHObject {
 
 
   public GsonRequest<String> update(String websiteURL, String agentAccessToken, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-    double productId = Double.parseDouble(getId().toString());
-    int pid = (int)productId;
-    String url = String.format("%s/products/%s", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), pid);
+    String url = String.format("%s/products/%d", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API), this.getId());
 
     HashMap<String, String> headers = new HashMap<String, String>();
     headers.put("Authorization", String.format("Token token=\"%s\"", agentAccessToken));
@@ -85,6 +88,9 @@ public class Product extends FHObject {
 
     return new GsonRequest<String>(Request.Method.PUT, url, String.class, headers, jsonObject, listener, errorListener);
   }
+
+
+  // endregion
 
 
 
@@ -138,6 +144,16 @@ public class Product extends FHObject {
 
   public void setWebsiteURL(String websiteURL) {
     _websiteURL = websiteURL;
+  }
+
+
+  public ChatSettings getChatSettings() {
+    return _chatSettings;
+  }
+
+
+  public void setChatSettings(ChatSettings chatSettings) {
+    _chatSettings = (chatSettings == null) ? new ChatSettings() : chatSettings;
   }
 
 

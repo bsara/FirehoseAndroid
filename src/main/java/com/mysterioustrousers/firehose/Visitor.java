@@ -19,7 +19,7 @@ import org.json.JSONArray;
 
 
 
-public class Visitor extends FHObject implements Parcelable {
+public class Visitor extends FHObject<String> implements Parcelable {
 
   @SerializedName("visitor_id")
   private String _visitorId; // needs its own variable or else a Visitor will have two _id's, but can still be accessed with getId() and setId()
@@ -28,7 +28,7 @@ public class Visitor extends FHObject implements Parcelable {
   private int _agentId;
 
   @SerializedName("box_state")
-  private String _boxState; //private BoxState _boxState;
+  private BoxState _boxState;
 
   @SerializedName("connected_at")
   private String _connectedAt;
@@ -90,7 +90,7 @@ public class Visitor extends FHObject implements Parcelable {
     super();
 
     this.setAgentId(-1);
-    this.setBoxState("none"); // this.setBoxState(BoxState.NONE);
+    this.setBoxState(BoxState.NONE);
     this.setConnectedAt(null);
     this.setCurrentURL(null);
     this.setDisconnectedAt(null);
@@ -130,7 +130,7 @@ public class Visitor extends FHObject implements Parcelable {
       Visitor visitor = new Visitor();
 
       visitor.setAgentId(source.readInt());
-      visitor.setBoxState(source.readString());//visitor.setBoxState((BoxState)source.readSerializable());
+      visitor.setBoxState((BoxState)source.readSerializable());
       // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
       //mVisitor._connectedAt = (java.util.Date) source.readSerializable();//_connectedAt);
       try {
@@ -180,7 +180,7 @@ public class Visitor extends FHObject implements Parcelable {
   @Override
   public void writeToParcel(Parcel parcel, int i) {
     parcel.writeInt(this.getAgentId());
-    parcel.writeString(this.getBoxState());//parcel.writeSerializable(this.getBoxState());
+    parcel.writeSerializable(this.getBoxState());
     // http://stackoverflow.com/questions/21017404/reading-and-writing-java-util-date-from-parcelable-class
     //parcel.writeSerializable(this.getConnectedAt());
     parcel.writeString(this.getCurrentURL().toString());
@@ -205,7 +205,7 @@ public class Visitor extends FHObject implements Parcelable {
     parcel.writeString(this.getTimeZone());
     parcel.writeInt(this.getUnreadCount());
     //parcel.writeSerializable(this.getVisitedCurrentUrlAt());
-    parcel.writeString((String)this.getId());
+    parcel.writeString(this.getId());
   }
 
 
@@ -214,14 +214,14 @@ public class Visitor extends FHObject implements Parcelable {
 
 
   @Override
-  public Object getId() {
+  public String getId() {
     return _visitorId;
   }
 
 
   @Override
-  public void setId(Object id) {
-    _visitorId = (id != null) ? id.toString() : null;
+  public void setId(String id) {
+    _visitorId = id;
   }
 
 
@@ -235,24 +235,12 @@ public class Visitor extends FHObject implements Parcelable {
   }
 
 
-  /*
   public BoxState getBoxState() {
     return _boxState;
   }
 
 
   public void setBoxState(BoxState boxState) {
-    _boxState = boxState;
-  }
-  */
-
-
-  public String getBoxState() {
-    return _boxState;
-  }
-
-
-  public void setBoxState(String boxState) {
     _boxState = boxState;
   }
 

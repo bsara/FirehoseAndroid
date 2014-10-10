@@ -6,7 +6,7 @@ import com.mysterioustrousers.firehose.accounts.FacebookAccount;
 
 
 
-public class FacebookPage extends FHObject {
+public class FacebookPage extends FHObject<Integer> {
 
   private FacebookAccount _account;
   private String          _name;

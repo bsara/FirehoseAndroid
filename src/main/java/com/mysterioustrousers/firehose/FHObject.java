@@ -9,10 +9,10 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public abstract class FHObject implements Comparable<FHObject> {
+public abstract class FHObject<T> implements Comparable<FHObject> {
 
   @SerializedName("id")
-  private Object _id;
+  private T _id;
 
   @SerializedName("created_at")
   private Date _createdAt; // TODO: maybe make a calendar, but gson seems to only work with Date
@@ -36,12 +36,12 @@ public abstract class FHObject implements Comparable<FHObject> {
 
 
   // FIXME: This shouldn't return an Object, in fact, we should use a generic connected to FHObject to set the value of the object's ID
-  public Object getId() {
+  public T getId() {
     return _id;
   }
 
 
-  public void setId(Object id) {
+  public void setId(T id) {
     _id = id;
   }
 

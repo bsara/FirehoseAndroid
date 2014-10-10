@@ -7,7 +7,7 @@ import com.mysterioustrousers.firehose.FHObject;
 
 
 
-public class Tag extends FHObject {
+public class Tag extends FHObject<Integer> {
 
   @SerializedName("label")
   private String _label;

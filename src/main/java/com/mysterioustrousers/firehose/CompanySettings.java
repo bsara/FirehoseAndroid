@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class CompanySettings extends FHObject {
+public class CompanySettings extends FHObject<Integer> {
 
   @SerializedName("fetch_automatically")
   private boolean _fetchAutomatically;

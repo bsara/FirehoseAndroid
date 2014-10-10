@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class AgentInvite extends FHObject {
+public class AgentInvite extends FHObject<Integer> {
 
   @SerializedName("email")
   private String _email;

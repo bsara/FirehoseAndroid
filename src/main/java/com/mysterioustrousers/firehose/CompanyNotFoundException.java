@@ -26,6 +26,6 @@ public class CompanyNotFoundException extends Exception {
 
   @Override
   public String getMessage() {
-    return String.format("The company '%s' with ID of '%s' could not be found!", _company.getTitle(), _company.getId().toString());
+    return String.format("The company '%s' with ID of '%d' could not be found!", _company.getTitle(), _company.getId());
   }
 }

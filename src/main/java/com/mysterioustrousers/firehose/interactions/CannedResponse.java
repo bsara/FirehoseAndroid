@@ -7,7 +7,7 @@ import com.mysterioustrousers.firehose.FHObject;
 
 
 
-public class CannedResponse extends FHObject {
+public class CannedResponse extends FHObject<Integer> {
 
   @SerializedName("name")
   private String _name;

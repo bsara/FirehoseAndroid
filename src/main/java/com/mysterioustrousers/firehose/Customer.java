@@ -13,7 +13,7 @@ import com.mysterioustrousers.firehose.accounts.CustomerAccount;
 
 
 
-public class Customer extends FHObject {
+public class Customer extends FHObject<Integer> {
 
   private String  _name;
   private Company _company;

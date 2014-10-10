@@ -10,7 +10,7 @@ import com.mysterioustrousers.firehose.FHObject;
 
 
 
-public class ChatInteraction extends Interaction {
+public class ChatInteraction extends Interaction<String> {
 
   @SerializedName("visitor_id")
   private String _visitorId;
@@ -73,7 +73,7 @@ public class ChatInteraction extends Interaction {
   */
 
 
-  // region Getter & Setters
+  // region Getter/Setters
 
 
   public boolean isSenderAnAgent() {
@@ -84,19 +84,19 @@ public class ChatInteraction extends Interaction {
   public boolean isSenderCurrentAgent() {
     return this.isSenderAnAgent()
            && Agent.getLoggedInAgent() != null
-           && Agent.getLoggedInAgent().getId().equals(this.getAgent().getId());
+           && Agent.getLoggedInAgent().equals(this.getAgent());
   }
 
 
   @Override
-  public void setId(Object messageId) {
-    _messageId = (messageId != null) ? messageId.toString() : null;
-  }
-
-
-  @Override
-  public Object getId() {
+  public String getId() {
     return _messageId;
+  }
+
+
+  @Override
+  public void setId(String messageId) {
+    _messageId = messageId;
   }
 
 

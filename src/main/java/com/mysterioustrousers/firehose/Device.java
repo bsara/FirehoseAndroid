@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 
 
-public class Device extends FHObject {
+public class Device extends FHObject<Double> { // FIXME: Why id a Double? Why not an Integer???
 
 
   @SerializedName("device_identifier")

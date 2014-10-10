@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 
 
-public class AgentSettings extends FHObject {
+public class AgentSettings extends FHObject<Integer> {
 
   @SerializedName("seconds_from_utc")
   private int _availabilitySecondsFromUTC;
@@ -30,6 +30,9 @@ public class AgentSettings extends FHObject {
   @SerializedName("dnd_is_manually_turned_on")
   private boolean _manuallyUnavailable;
 
+  @SerializedName("dnd_motion_activity_enabled")
+  private boolean _motionActivityEnabled;
+
   @SerializedName("digest_days")
   private List<Integer> _digestDays; // TODO: private List<DayOfWeek> _digestDays;
 
@@ -43,12 +46,13 @@ public class AgentSettings extends FHObject {
     this.setAvailabilityStartHourUTC(0);
     this.setAvailabilityEndHourUTC(0);
     this.setManuallyUnavailable(false);
+    this.setMotionActivityEnabled(false);
     this.setDigestDays(new ArrayList<Integer>());
   }
 
 
 
-  // region Getters & Setters
+  // region Getters/Setters
 
 
   public int getAvailabilityStartHourForTimeZone() {
@@ -130,6 +134,16 @@ public class AgentSettings extends FHObject {
 
   public void setManuallyUnavailable(boolean manuallyUnavailable) {
     _manuallyUnavailable = manuallyUnavailable;
+  }
+
+
+  public boolean isMotionActivityEnabled() {
+    return _motionActivityEnabled;
+  }
+
+
+  public void setMotionActivityEnabled(boolean isEnabled) {
+    _motionActivityEnabled = isEnabled;
   }
 
 

@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 
 
-public class Agent extends FHObject {
+public class Agent extends FHObject<Integer> {
 
   private static Agent s_loggedInAgent = null;
 
@@ -362,7 +362,7 @@ public class Agent extends FHObject {
   }
 
 
-  public void setCurrentCompany(Object companyId) throws CompanyNotFoundException {
+  public void setCurrentCompany(int companyId) throws CompanyNotFoundException {
     Company company = new Company();
     company.setId(companyId);
 

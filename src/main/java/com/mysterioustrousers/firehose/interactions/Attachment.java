@@ -6,7 +6,7 @@ import com.mysterioustrousers.firehose.FHObject;
 
 
 
-public class Attachment extends FHObject {
+public class Attachment extends FHObject<Integer> {
 
 
   public Attachment() {
