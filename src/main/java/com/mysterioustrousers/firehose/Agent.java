@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.google.gson.Gson;
@@ -238,16 +236,28 @@ public class Agent extends FHObject<Integer> {
   // region Static Server Action: requestPasswordReset
 
 
-  public static GsonRequest<String> requestPasswordReset(String email, Listener<String> listener, ErrorListener errorListener) {
-    String url = String.format("%s/request_reset_password", EnvironmentManager.getRemoteInstance().getBaseURL(FHApplication.API));
-    JSONObject jsonObject = new JSONObject();
-    try {
-      jsonObject.put("email", email);
-    } catch (Exception e) {
-      errorListener.onErrorResponse(new ParseError(e));
-    }
+  public static void requestPasswordReset(String email) throws JSONException {
+    Agent.requestPasswordReset(email, null, null);
+  }
 
-    return new GsonRequest<String>(Request.Method.POST, url, String.class, jsonObject, listener, errorListener);
+
+  public static void requestPasswordReset(String email, Listener<String> onSuccessListener) throws JSONException {
+    Agent.requestPasswordReset(email, onSuccessListener, null);
+  }
+
+
+  public static void requestPasswordReset(String email, ErrorListener onErrorListener) throws JSONException {
+    Agent.requestPasswordReset(email, null, onErrorListener);
+  }
+
+
+  public static void requestPasswordReset(String email, Listener<String> onSuccessListener, ErrorListener onErrorListener) throws JSONException {
+    FHClientOptions options = new FHClientOptions(FHApplication.API, "/request_reset_password", true);
+    options.setJSON(new JSONObject().put("email", email));
+    options.setResponseSuccessListener(onSuccessListener);
+    options.setResponseErrorListener(onErrorListener);
+
+    FHClient.getInstance().jsonPost(options, String.class);
   }
 
 
